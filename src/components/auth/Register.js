@@ -33,7 +33,7 @@ export const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    if ("valid" in res && res.valid) {
+                    if ("id" in res) {
                         localStorage.setItem("rare_user_id", res.token)
                         props.history.push("/")
                     }
