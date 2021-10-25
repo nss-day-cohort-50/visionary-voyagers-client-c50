@@ -19,10 +19,11 @@ export const Login = () => {
                     if (user.email === email.current.value && user.password === password.current.value) {
                         localStorage.setItem("rare_user_id", user.id)
                         history.push("/")
+                        break
                     }
                     else {
-                        console.log("Username or password do not match.")
-                        // invalidDialog.current.showModal()
+                        invalidDialog.current.showModal()
+                        break
                     }
                 }
             })
