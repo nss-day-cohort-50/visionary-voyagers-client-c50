@@ -12,19 +12,19 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch("http://127.0.0.1:8088/users")
+        return fetch(`http://127.0.0.1:8088/users`)
             .then(res => res.json())
             .then(res => {
-                for (const user of res) {
-                    if (user.email === email.current.value && user.password === password.current.value) {
-                        localStorage.setItem("rare_user_id", user.id)
-                        history.push("/")
-                    }
-                    else {
-                        console.log("Username or password do not match.")
-                        // invalidDialog.current.showModal()
-                    }
+                const foundUser = res.find(user => user.email === email.current.value)
+                // debugger
+                if (foundUser?.password === password.current.value) {
+                    localStorage.setItem("rare_user_id", foundUser.id)
+                    history.push("/")
                 }
+                else {
+                    invalidDialog.current.showModal()
+                }
+
             })
     }
 
