@@ -24,6 +24,7 @@ export const NavBar = () => {
                             }}
                         >Logout</button>
                     </li> :
+                    
                     <>
                         <li className="nav-item">
                             <Link className="nav-link" to="/login">Login</Link>
