@@ -31,3 +31,15 @@ h2 {
     margin: auto;
     width: 60%;
 }
+
+.edit-delete {
+    margin-left: 0.5em;
+    font-size: 0.8em;
+}
+
+
+.cat-list-item{
+    display: flex;
+    justify-content: space-between;
+    width: 10em;
+}

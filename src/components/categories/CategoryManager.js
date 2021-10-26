@@ -4,6 +4,7 @@ import "./CategoryManager.css"
 export const CategoryManager = () => {
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
+    const [editMode, setEditMode] = useState(false)
 
     const getCats = () => {
         const copy = { ...newCat }
@@ -36,13 +37,34 @@ export const CategoryManager = () => {
         }).then(() => getCats())
     }
 
+    const editCategory = () => {
+        setEditMode(true)
+        console.log("Editing category")
+    }
+    const deleteCategory = () => {
+        console.log("Deleting category")
+    }
+    const updateCategory = () => {
+        console.log("Updating category")
+    }
+
     return (<>
         <h2>Category Manager</h2>
         <article className="cat-manager">
             <section>
                 <ul>
                     {categories?.map(cat => {
-                        return <li key={cat.id}>{cat.label}</li>
+                        return <li key={cat.id}>
+                            <div className="cat-list-item">
+                                {cat.label}
+                                <div>
+                                    <button className="edit-delete"
+                                        onClick={editCategory}>🔧</button>
+                                    <button className="edit-delete"
+                                        onClick={deleteCategory}>❌</button>
+                                </div>
+                            </div>
+                        </li>
                     })}
                 </ul>
             </section>
@@ -53,8 +75,16 @@ export const CategoryManager = () => {
                         <input type="text" placeholder="Add category"
                             value={newCat.label}
                             onChange={setCategory} />
-                        <button className="submit-cat"
-                            onClick={postCategory}>Create</button>
+                        {editMode ?
+                            <><button className="submit-cat"
+                                onClick={updateCategory}>Update</button></>
+                            : <><button className="submit-cat"
+                                onClick={postCategory}>Create</button></>}
+                        {editMode ?
+                            <><button className="submit-cat"
+                                onClick={() => setEditMode(false)}>Cancel</button></>
+                            : ""
+                        }
                     </fieldset>
                 </div>
             </section>
