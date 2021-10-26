@@ -24,7 +24,7 @@ useEffect(() => {
         <>
         <h2>{post.title}</h2>
         {post.image_url !== null || post.image_url !== ""
-        ? <img src={`${post.image_url}`} alt="Post image" />
+        ? <img src={`${post.image_url}`} alt="Post" />
         : <p>No image found</p>}
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
