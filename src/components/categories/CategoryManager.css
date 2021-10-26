@@ -1,0 +1,33 @@
+h2 {
+    text-align: center;
+}
+
+.cat-manager {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 2em 0 2em;
+}
+
+.new-category-form fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 1em;
+    margin: 0;
+}
+
+.new-category-form h3 {
+    margin: 0 0 1em 0;
+}
+
+.new-category-form input {
+    margin: 1em;
+}
+
+.submit-cat{
+    border-radius: 10px;
+    margin: auto;
+    width: 60%;
+}
