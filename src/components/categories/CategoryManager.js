@@ -5,19 +5,19 @@ export const CategoryManager = () => {
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
 
-    console.log(categories)
-
     const getCats = () => {
+        const copy = { ...newCat }
+        copy.label = ""
+        setNewCat(copy)
         fetch('http://127.0.0.1:8088/categories')
             .then(res => res.json())
             .then(cats => setCategories(cats))
     }
-    
+
     useEffect(() => {
         getCats()
     }, []
     )
-
 
     const setCategory = (event) => {
         let copy = { ...newCat }
@@ -51,6 +51,7 @@ export const CategoryManager = () => {
                     <fieldset>
                         <h3>Create a new category</h3>
                         <input type="text" placeholder="Add category"
+                            value={newCat.label}
                             onChange={setCategory} />
                         <button className="submit-cat"
                             onClick={postCategory}>Create</button>
