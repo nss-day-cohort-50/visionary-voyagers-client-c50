@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
 
-export const Posts = () => {
+export const AllPosts = () => {
     const [posts, updatePosts] = useState([])
     useEffect(() => {
         getPosts()
@@ -11,12 +11,12 @@ export const Posts = () => {
     }, [])
 
     const getPosts = () => {
-        return fetch(`http://localhost:8088/myposts/${localStorage.getItem('rare_user_id')}`)
+        return fetch(`http://localhost:8088/posts`)
     }
 
     return (
         <>
-        <h2>My Posts</h2>
+        <h2>All Posts</h2>
             <ul>
                 {posts?.map(post => {
                     return <li>

@@ -13,7 +13,7 @@ export const updateCategory = (newCat) => {
     })
 }
 
-export const deleteCategory = (id, setCategories) => {
+export const deleteCategory = (id) => {
     return fetch(`http://127.0.0.1:8088/categories/${id}`,
         { method: "DELETE" })
 }
