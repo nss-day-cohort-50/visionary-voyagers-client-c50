@@ -7,6 +7,7 @@ export const PostForm = () => {
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
     const [posts, setPosts] = useState([])
+    const [tags, setTags] = useState([])
     const history = useHistory()
 
     const getCats = () => {
@@ -17,12 +18,24 @@ export const PostForm = () => {
             .then(res => res.json())
             .then(cats => setCategories(cats))
     }
+    const getTags = () => {
+        const copy = { ...newTag }
+        copy.label = ""
+        setNewTag(copy)
+        fetch('http://127.0.0.1:8088/tags')
+            .then(res => res.json())
+            .then(tags => setTags(tags))
+    }
 
     const getPosts = () => {
         fetch('http://127.0.0.1:8088/posts')
             .then(res => res.json())
             .then(p => setPosts(p))
     }       
+
+    useEffect(() => {
+        getTags()
+    }, [])
     
     useEffect(() => {
         getCats()
@@ -68,9 +81,21 @@ export const PostForm = () => {
                     placeholder="Category"
                     defaultValue="Choose a Category"
                     onChange={handleControlledInputChange}>
-                        <option>default</option>
+                        <option>Choose a Category</option>
                         {
                             categories.map(c => <option name="category_id" value={c.id}>{c.label}</option>)
+                        }
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="tag">Tag: </label>
+                <select type="text" name="tag_id" className="form-control" 
+                    placeholder="Tag"
+                    defaultValue="Manage Tags"
+                    onChange={handleControlledInputChange}>
+                        <option>Choose a Tag</option>
+                        {
+                            tags.map(t => <option name="tag_id" value={t.id}>{t.label}</option>)
                         }
                 </select>
             </div>
