@@ -8,9 +8,9 @@ export const Post = () => {
 
     const [post, setPost] = useState({})
 
-    const location = useLocation()
+    // const location = useLocation()
 
-    const { author } = location.state
+    // const  { author } = location.state
 
     const getPost = () => {
         return fetch(`http://localhost:8088/post/${postId}`)
@@ -31,7 +31,7 @@ export const Post = () => {
                 : <p>No image found</p>}
             <p>{post.content}</p>
             <h3>Posted: {post.publication_date}</h3>
-            <p>By {author}</p>
+            <p>By {post?.user?.first_name}</p>
         </>
     )
 }

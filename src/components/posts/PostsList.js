@@ -4,17 +4,15 @@ import { Link } from "react-router-dom"
 
 export const Posts = () => {
     const [posts, updatePosts] = useState([])
-
-    const getPosts = () => {
-        return fetch(`http://localhost:8088/posts/${localStorage.getItem('rare_user_id')}`)
-    }
-
     useEffect(() => {
         getPosts()
             .then(res => res.json())
             .then(res => updatePosts(res))
     }, [])
 
+    const getPosts = () => {
+        return fetch(`http://localhost:8088/posts/${localStorage.getItem('rare_user_id')}`)
+    }
 
     return (
         <>
