@@ -5,6 +5,7 @@ import { CategoryManager } from "./categories/CategoryManager.js"
 import { Post } from './posts/post.js'
 import { Posts } from './posts/PostsList'
 import { TagManager } from './tags/tagManager'
+import { AllPosts } from "./posts/AllPosts.js"
 
 export const ApplicationViews = () => {
     return <>
@@ -12,8 +13,11 @@ export const ApplicationViews = () => {
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
         }}>
-            <Route path="/posts">
+            <Route path="/myposts">
                 <Posts />
+            </Route>
+            <Route path="/posts">
+                <AllPosts />
             </Route>
             <Route path="/create_post">
                 <PostForm />
