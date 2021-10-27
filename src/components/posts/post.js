@@ -8,9 +8,9 @@ export const Post = () => {
 
     const [post, setPost] = useState({})
 
-    const location = useLocation()
+    // const location = useLocation()
 
-    const  { author } = location.state
+    // const  { author } = location.state
 
 
 useEffect(() => {
@@ -28,7 +28,7 @@ useEffect(() => {
         : <p>No image found</p>}
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
-        <p>By {author}</p>
+        <p>By {post?.user?.first_name}</p>
         </>
     )
 }

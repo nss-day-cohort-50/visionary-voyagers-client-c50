@@ -1,8 +1,37 @@
 import React, {useState, useEffect} from "react"
+import {useHistory} from 'react-router-dom'
 import ReactDOM from 'react-dom'
 
 export const PostForm = () => {
     const [post, setPost] = useState({})
+    const [categories, setCategories] = useState([])
+    const [newCat, setNewCat] = useState("")
+    const [posts, setPosts] = useState([])
+    const history = useHistory()
+
+    const getCats = () => {
+        const copy = { ...newCat }
+        copy.label = ""
+        setNewCat(copy)
+        fetch('http://127.0.0.1:8088/categories')
+            .then(res => res.json())
+            .then(cats => setCategories(cats))
+    }
+
+    const getPosts = () => {
+        fetch('http://127.0.0.1:8088/posts')
+            .then(res => res.json())
+            .then(p => setPosts(p))
+    }       
+    
+    useEffect(() => {
+        getCats()
+    }, []
+    )
+
+    useEffect(() => {
+        getPosts()
+    }, [])
 
     const handleControlledInputChange = (event) => {
         const newPost = Object.assign({}, post)
@@ -12,7 +41,6 @@ export const PostForm = () => {
 
     const constructNewPost = () => {
         const copyPost = { ...post }
-        copyPost.category_id = 1
         copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
         copyPost.approved = 1
@@ -27,6 +55,7 @@ export const PostForm = () => {
             },
             body: JSON.stringify(post)
         }).then(res => res.json())
+        .then(res => history.push(`/post/${res.id}`))
         };
 
 
@@ -37,10 +66,12 @@ export const PostForm = () => {
                 <label htmlFor="category">Category: </label>
                 <select type="text" name="category_id" className="form-control" 
                     placeholder="Category"
-                    defaultValue=""
-                    name={post.category_id}
+                    defaultValue="Choose a Category"
                     onChange={handleControlledInputChange}>
-                        <option value={1}>You Have one option</option>
+                        <option>default</option>
+                        {
+                            categories.map(c => <option name="category_id" value={c.id}>{c.label}</option>)
+                        }
                 </select>
             </div>
             <div className="form-group">
