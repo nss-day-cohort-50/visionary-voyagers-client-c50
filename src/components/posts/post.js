@@ -29,6 +29,7 @@ export const Post = () => {
 
 const toggleComment = () => {
     setToggle(!isToggled)
+    console.log(post.comments)
 }
 
 const handleSubmit = () => {
@@ -45,6 +46,14 @@ const handleSubmit = () => {
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
         <p>By {post?.user?.first_name}</p>
+        <h4>Comments</h4>
+        <ul>
+        {post?.comments?.map(
+            comment => {
+                return <li>{comment?.author_id} said: {comment?.content} at {comment.created_on}</li>
+            }
+        )}
+        </ul>
         {isToggled === true
         ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
           <button onClick={() => handleSubmit()}>Submit</button>
