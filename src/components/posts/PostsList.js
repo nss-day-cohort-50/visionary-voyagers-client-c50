@@ -17,7 +17,7 @@ export const Posts = () => {
     return (
         <>
             <ul>
-                {posts.map(post => {
+                {posts?.map(post => {
                     return <li>
                         <div>
                             <ul>
