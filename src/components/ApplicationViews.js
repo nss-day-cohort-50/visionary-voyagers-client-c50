@@ -11,18 +11,18 @@ export const ApplicationViews = () => {
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
         }}>
-        <Route exact path="/posts">
-            <Posts />
-        </Route>
-        <Route path="/create_post">
-            <PostForm />
-        </Route>
-        <Route exact path="/post/:postId">
-            <Post />
-        </Route>
-        <Route path="/categories">
-            <CategoryManager />
-        </Route>
+            <Route path="/posts">
+                <Posts />
+            </Route>
+            <Route path="/create_post">
+                <PostForm />
+            </Route>
+            <Route exact path="/post/:postId">
+                <Post />
+            </Route>
+            <Route path="/categories">
+                <CategoryManager />
+            </Route>
         </main>
     </>
 }
