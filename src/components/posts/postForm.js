@@ -6,6 +6,7 @@ export const PostForm = () => {
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
+    const [newTag, setNewTag] = useState("")
     const [posts, setPosts] = useState([])
     const [tags, setTags] = useState([])
     const history = useHistory()
@@ -32,6 +33,7 @@ export const PostForm = () => {
             .then(res => res.json())
             .then(p => setPosts(p))
     }       
+
 
     useEffect(() => {
         getTags()
