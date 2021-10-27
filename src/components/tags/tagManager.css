@@ -1,0 +1,45 @@
+h2 {
+    text-align: center;
+}
+
+.tag-manager {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 2em 0 2em;
+}
+
+.new-tag-form fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 1em;
+    margin: 0;
+}
+
+.new-tag-form h3 {
+    margin: 0 0 1em 0;
+}
+
+.new-tag-form input {
+    margin: 1em;
+}
+
+.submit-tag{
+    border-radius: 10px;
+    margin: auto;
+    width: 60%;
+}
+
+.edit-delete {
+    margin-left: 0.5em;
+    font-size: 0.8em;
+}
+
+
+.tag-list-item{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

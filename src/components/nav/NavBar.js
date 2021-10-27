@@ -18,6 +18,9 @@ export const NavBar = () => {
                 <Link className="navbar__link" to="/categories">Category Manager</Link>
             </li>
             <li className="navbar__item">
+                <Link className="navbar__link" to="/tags">Tag Manager</Link>
+            </li>
+            <li className="navbar__item">
                 <Link className="navbar__link" to="/create_post">Create Post</Link>
             </li>
             {
