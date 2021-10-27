@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom"
 
 
 export const Post = () => {
+    
     const { postId } = useParams()
 
     const [post, setPost] = useState({})
@@ -12,12 +13,24 @@ export const Post = () => {
 
     const  { author } = location.state
 
+    const [isToggled, setToggle] = useState(false)
+
+    const [commentText, setCommentText] = useState("")
+
 
 useEffect(() => {
     fetch(`http://localhost:8088/post/${postId}`)
             .then(res => res.json())
             .then(res => setPost(res))
 }, [])
+
+const toggleComment = () => {
+    setToggle(!isToggled)
+}
+
+const handleSubmit = () => {
+    console.log(commentText)
+}
 
 
     return(
@@ -29,6 +42,12 @@ useEffect(() => {
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
         <p>By {author}</p>
+        {isToggled === true
+        ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
+          <button onClick={() => handleSubmit()}>Submit</button>
+          <button onClick={() => toggleComment()}>Cancel</button>
+          </>
+        : <button onClick={() => toggleComment()}>Add Comment</button>}
         </>
     )
 }
