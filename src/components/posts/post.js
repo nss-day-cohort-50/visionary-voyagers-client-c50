@@ -9,11 +9,11 @@ export const Post = () => {
 
     const [post, setPost] = useState({})
 
-    // const location = useLocation()
-
-    // const  { author } = location.state
+    const [users, updateUsers] = useState([])
 
     const [isToggled, setToggle] = useState(false)
+
+    const [comment, setComment] = useState({})
 
     const [commentText, setCommentText] = useState("")
 
@@ -21,20 +21,41 @@ export const Post = () => {
         return fetch(`http://localhost:8088/post/${postId}`)
     }
 
+    const getUsers = () => {
+        return fetch('http://localhost:8088/users')
+    }
+
     useEffect(() => {
         getPost()
             .then(res => res.json())
             .then(res => setPost(res))
-    }, [])
+        getUsers()
+            .then(res => res.json())
+            .then(res => updateUsers(res))
+    }, [isToggled])
 
 const toggleComment = () => {
     setToggle(!isToggled)
     console.log(post.comments)
 }
 
-const handleSubmit = () => {
-    console.log(commentText)
+const constructComment = () => {
+    comment.post_id = parseInt(postId)
+    comment.author_id = parseInt(localStorage.getItem("rare_user_id"))
+    comment.content = commentText
+    postComment(comment)
+    setToggle(!isToggled)
 }
+
+const postComment = (postComment) => {
+    return fetch(`http://localhost:8088/comments`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postComment)
+    })
+    };
 
 
     return (
@@ -45,18 +66,22 @@ const handleSubmit = () => {
         : <p>No image found</p>}
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
-        <p>By {post?.user?.first_name}</p>
+        <p>By {post?.user?.first_name} {post?.user?.last_name}</p>
         <h4>Comments</h4>
         <ul>
         {post?.comments?.map(
-            comment => {
-                return <li>{comment?.author_id} said: {comment?.content} at {comment.created_on}</li>
+            comment => { //Iterating through comments
+                for (const user of users) { //Scanning users for matching ids to comment author id
+                if (comment?.author_id == user?.id) {
+                    return <li>{user.first_name} {user.last_name} said: "{comment?.content}" at {comment?.created_on}</li>
+                }
             }
+        }
         )}
         </ul>
         {isToggled === true
         ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
-          <button onClick={() => handleSubmit()}>Submit</button>
+          <button onClick={() => constructComment()}>Submit</button>
           <button onClick={() => toggleComment()}>Cancel</button>
           </>
         : <button onClick={() => toggleComment()}>Add Comment</button>}
