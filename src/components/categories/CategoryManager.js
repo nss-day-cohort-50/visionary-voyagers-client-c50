@@ -9,12 +9,12 @@ export const CategoryManager = () => {
     const [triggerRender, setTrigger] = useState(0)
 
     console.log(triggerRender)
-    
+
     useEffect(() => {
         getCats()
             .then(res => res.json())
             .then(cats => setCategories(cats))
-    }, []
+    }, [, triggerRender]
     )
 
     const setCategory = (event) => {
