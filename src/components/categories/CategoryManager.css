@@ -41,5 +41,5 @@ h2 {
 .cat-list-item{
     display: flex;
     justify-content: space-between;
-    width: 10em;
+    width: 100%;
 }

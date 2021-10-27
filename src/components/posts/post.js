@@ -10,25 +10,28 @@ export const Post = () => {
 
     const location = useLocation()
 
-    const  { author } = location.state
+    const { author } = location.state
 
+    const getPost = () => {
+        return fetch(`http://localhost:8088/post/${postId}`)
+    }
 
-useEffect(() => {
-    fetch(`http://localhost:8088/post/${postId}`)
+    useEffect(() => {
+        getPost()
             .then(res => res.json())
             .then(res => setPost(res))
-}, [])
+    }, [])
 
 
-    return(
+    return (
         <>
-        <h2>{post.title}</h2>
-        {post.image_url !== null || post.image_url !== ""
-        ? <img src={`${post.image_url}`} alt="Post" />
-        : <p>No image found</p>}
-        <p>{post.content}</p>
-        <h3>Posted: {post.publication_date}</h3>
-        <p>By {author}</p>
+            <h2>{post.title}</h2>
+            {post.image_url !== null || post.image_url !== ""
+                ? <img src={`${post.image_url}`} alt="Post" />
+                : <p>No image found</p>}
+            <p>{post.content}</p>
+            <h3>Posted: {post.publication_date}</h3>
+            <p>By {author}</p>
         </>
     )
 }

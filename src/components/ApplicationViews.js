@@ -6,19 +6,19 @@ import { Posts } from './posts/PostsList'
 
 export const ApplicationViews = () => {
     return <>
-        <main style={{
+        {/* <main style={{
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
-        }}>
-            <Route path="/posts">
-                <Posts />
-            </Route>
-            <Route path="/categories">
-                <CategoryManager />
-            </Route>
-            <Route exact path="/post/:postId">
-                <Post />
-            </Route>
-        </main>
+        }}> */}
+        <Route path="/posts">
+            <Posts />
+        </Route>
+        <Route path="/categories">
+            <CategoryManager />
+        </Route>
+        <Route exact path="/post/:postId">
+            <Post />
+        </Route>
+        {/* </main> */}
     </>
 }
