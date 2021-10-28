@@ -8,6 +8,7 @@ export const EditPost = () => {
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
+    const [tags, setTags] = useState([])
     const history = useHistory()
 
     const { postId } = useParams()
@@ -21,6 +22,16 @@ export const EditPost = () => {
             .then(res => res.json())
             .then(cats => setCategories(cats))
     }
+
+    const getTags = () => {
+        return fetch('http://127.0.0.1:8088/postTags')
+            .then(res => res.json())
+            .then(tags => setTags(tags))
+        }
+
+    useEffect(() => {
+        getTags()
+    }, [])
 
     useEffect(() => {
         getCats()
@@ -64,6 +75,16 @@ export const EditPost = () => {
                         categories.map(c => <option name="category_id" selected={post.category_id === c.id ? true : false} value={c.id}>{c.label}</option>)
                     }
                 </select>
+            </div>
+            <div className="form-group">
+                {tags.map(tag => {<>
+                    if (tag.post_id === post.id) {
+                        return <label name="tag_id" value={t.id}>{t.label}</label>
+                        <input type="checkbox" name="tag_id" value={`${t.id}`}></input>
+                    } else {
+                        
+                    }
+               </> })}
             </div>
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>

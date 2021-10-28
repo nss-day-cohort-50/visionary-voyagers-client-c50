@@ -7,7 +7,6 @@ import { useHistory } from "react-router"
 export const Post = () => {
     
     const { postId } = useParams()
-    const [newTag, setNewTag] = useState("")
     const [tags, setTags] = useState([])
     const [post, setPost] = useState({})
     const [toDelete, setDelete] = useState(false)
@@ -26,13 +25,10 @@ export const Post = () => {
     }
 
     const getTags = () => {
-        const copy = { ...newTag }
-        copy.label = ""
-        setNewTag(copy)
-        fetch('http://127.0.0.1:8088/tags')
+        return fetch('http://127.0.0.1:8088/postTags')
             .then(res => res.json())
             .then(tags => setTags(tags))
-    }
+        }
 
     useEffect(() => {
         getTags()
@@ -77,19 +73,6 @@ const postComment = (postComment) => {
 
     return (
         <>
-<<<<<<< HEAD
-            <h2>{post.title}</h2>
-            {post.image_url !== null || post.image_url !== ""
-                ? <img src={`${post.image_url}`} alt="Post" />
-                : <p>No image found</p>}
-            <p>{post.content}</p>
-            <h3>Posted: {post.publication_date}</h3>
-            <p>By {post?.user?.first_name}</p>
-            <ul>
-                {tags.map}
-            </ul>
-
-=======
         <h2>{post.title}</h2>
         {post.image_url !== null || post.image_url !== ""
         ? <img src={`${post.image_url}`} alt="Post" />
@@ -97,6 +80,16 @@ const postComment = (postComment) => {
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
         <p>By {post?.user?.first_name} {post?.user?.last_name}</p>
+        <h4>Tags</h4>
+        <ul>
+            {tags.map(tag => {
+                if (tag.post_id === post.id) {
+                    return <li>{tag?.tag?.label}</li>
+                } else {
+                    return ""
+                }
+            })}
+        </ul>
         <h4>Comments</h4>
         <ul>
         {post?.comments?.map(
@@ -115,7 +108,6 @@ const postComment = (postComment) => {
                   <button onClick={() => toggleComment()}>Cancel</button>
                   </>
                 : <button onClick={() => toggleComment()}>Add Comment</button>}
->>>>>>> main
             {toDelete ?
                 <><p>Are you sure you wish to delete this post?</p>
                     <button onClick={() => {

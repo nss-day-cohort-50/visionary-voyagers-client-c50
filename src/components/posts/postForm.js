@@ -66,7 +66,6 @@ export const PostForm = () => {
     }
 
     const handleTagCheckboxes = (event) => {
-        //create array to hold tag ids
         let newPost = {}
         let chosenTag = parseInt(event.target.value) 
         newPost = Object.assign({}, post)
@@ -83,7 +82,6 @@ export const PostForm = () => {
             newPost.tagIds.push(chosenTag)
         }
         setPost(newPost)
-        console.log(newPost)
     }
 
     const addPost = (post) => {
