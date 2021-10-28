@@ -4,6 +4,7 @@ import { PostForm } from "./posts/postForm.js"
 import { CategoryManager } from "./categories/CategoryManager.js"
 import { Post } from './posts/post.js'
 import { Posts } from './posts/PostsList'
+import { TagManager } from './tags/tagManager'
 import { AllPosts } from "./posts/AllPosts.js"
 
 export const ApplicationViews = () => {
@@ -26,6 +27,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route path="/categories">
                 <CategoryManager />
+            </Route>
+            <Route path="/tags">
+                <TagManager />
             </Route>
         </main>
     </>
