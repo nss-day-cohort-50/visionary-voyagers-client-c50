@@ -8,7 +8,7 @@ export const getPost = (id) => {
 }
 
 export const updatePost = (updated) => {
-    return fetch(`http://localhost:8088/post/${updated.id}`, {
+    return fetch(`http://localhost:8088/posts/${updated.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

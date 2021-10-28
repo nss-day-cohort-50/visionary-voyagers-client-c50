@@ -39,12 +39,15 @@ export const EditPost = () => {
         setPost(newPost)
     }
 
-    const constructNewPost = () => {
+    const constructUpdated = () => {
         const copyPost = { ...post }
-        copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
-        copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
-        copyPost.approved = 1
+        copyPost.category_id = parseInt(copyPost.category_id)
         updatePost(copyPost)
+            .then(response => {
+                if (response.ok) {
+                    history.push(`/post/${postId}`)
+                }
+            })
     }
 
     return (
@@ -58,7 +61,7 @@ export const EditPost = () => {
                     onChange={handleControlledInputChange}>
                     <option value={null} disabled>Select Category</option>
                     {
-                        categories.map(c => <option name="category_id" selected={post.category_id === c.id ? true : false} value={parseInt(c.id)}>{c.label}</option>)
+                        categories.map(c => <option name="category_id" selected={post.category_id === c.id ? true : false} value={c.id}>{c.label}</option>)
                     }
                 </select>
             </div>
@@ -72,7 +75,8 @@ export const EditPost = () => {
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="imageURL">Image link</label>
+                <img src={post.image_url} /><br />
+                <label htmlFor="image_url">Image link</label>
                 <input type="text" name="image_url" className="form-control"
                     placeholder="Place URL here"
                     defaultValue=""
@@ -92,7 +96,7 @@ export const EditPost = () => {
                 <button type="submit"
                     onClick={event => {
                         event.preventDefault()
-                        constructNewPost()
+                        constructUpdated()
                     }}>Submit</button>
             </div>
         </form>
