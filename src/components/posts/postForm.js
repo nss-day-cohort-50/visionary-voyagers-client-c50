@@ -9,6 +9,7 @@ export const PostForm = () => {
     const [newTag, setNewTag] = useState("")
     const [posts, setPosts] = useState([])
     const [tags, setTags] = useState([])
+    const [tagArray, setTagArray] = useState([])
     const history = useHistory()
 
     const getCats = () => {
@@ -61,13 +62,28 @@ export const PostForm = () => {
         copyPost.approved = 1
         //add tag array to post
         addPost(copyPost)
+        console.log(copyPost)
     }
 
     const handleTagCheckboxes = (event) => {
         //create array to hold tag ids
-        //when a tag is clicked the id is appended to the array
-            //if the array already contains this id, it is not added
-        //update app state
+        let newPost = {}
+        let chosenTag = parseInt(event.target.value) 
+        newPost = Object.assign({}, post)
+        if (newPost.tagIds) {
+            if (newPost.tagIds.includes(chosenTag)) {
+                const index = newPost.tagIds.indexOf(chosenTag)
+                newPost.tagIds.pop([index])
+            }
+            else {
+                newPost.tagIds.push(chosenTag)
+            }
+        } else {
+            newPost.tagIds = []
+            newPost.tagIds.push(chosenTag)
+        }
+        setPost(newPost)
+        console.log(newPost)
     }
 
     const addPost = (post) => {
@@ -100,7 +116,7 @@ export const PostForm = () => {
                 {tags.map(t => (<>
                     <label name="tag_id" value={t.id}>{t.label}</label>
                         <input type="checkbox" name="tag_id" value={`${t.id}`}
-                        onChange={""}></input>
+                        onChange={handleTagCheckboxes}></input>
                         </>))}
             </div>
             <div className="form-group">

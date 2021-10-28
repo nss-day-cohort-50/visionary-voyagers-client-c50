@@ -49,14 +49,9 @@ export const Post = () => {
             <p>{post.content}</p>
             <h3>Posted: {post.publication_date}</h3>
             <p>By {post?.user?.first_name}</p>
-            <div className="form-group">
-                <p>Tags:</p>
-                {tags.map(t => (<>
-                    <label name="tag_id" value={t.id}>{t.label}</label>
-                        <input type="checkbox" name="tag_id" value={`${t.id}`}
-                        onChange={""}></input>
-                        </>))}
-            </div>
+            <ul>
+                {tags.map}
+            </ul>
 
             {toDelete ?
                 <><p>Are you sure you wish to delete this post?</p>
