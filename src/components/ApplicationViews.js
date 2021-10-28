@@ -5,6 +5,7 @@ import { CategoryManager } from "./categories/CategoryManager.js"
 import { Post } from './posts/post.js'
 import { Posts } from './posts/PostsList'
 import { AllPosts } from "./posts/AllPosts.js"
+import { EditPost } from "./posts/EditPost.js"
 
 export const ApplicationViews = () => {
     return <>
@@ -26,6 +27,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route path="/categories">
                 <CategoryManager />
+            </Route>
+            <Route path="/edit_post/:postId">
+                <EditPost />
             </Route>
         </main>
     </>
