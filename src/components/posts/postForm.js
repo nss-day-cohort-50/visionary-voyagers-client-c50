@@ -59,7 +59,15 @@ export const PostForm = () => {
         copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
         copyPost.approved = 1
+        //add tag array to post
         addPost(copyPost)
+    }
+
+    const handleTagCheckboxes = (event) => {
+        //create array to hold tag ids
+        //when a tag is clicked the id is appended to the array
+            //if the array already contains this id, it is not added
+        //update app state
     }
 
     const addPost = (post) => {
@@ -72,7 +80,6 @@ export const PostForm = () => {
         }).then(res => res.json())
         .then(res => history.push(`/post/${res.id}`))
         };
-
 
     return (
         <form className="postForm">
@@ -90,16 +97,11 @@ export const PostForm = () => {
                 </select>
             </div>
             <div className="form-group">
-                <label htmlFor="tag">Tag: </label>
-                <select type="text" name="tag_id" className="form-control" 
-                    placeholder="Tag"
-                    defaultValue="Manage Tags"
-                    onChange={handleControlledInputChange}>
-                        <option>Choose a Tag</option>
-                        {
-                            tags.map(t => <option name="tag_id" value={t.id}>{t.label}</option>)
-                        }
-                </select>
+                {tags.map(t => (<>
+                    <label name="tag_id" value={t.id}>{t.label}</label>
+                        <input type="checkbox" name="tag_id" value={`${t.id}`}
+                        onChange={""}></input>
+                        </>))}
             </div>
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>
