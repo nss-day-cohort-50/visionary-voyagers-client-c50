@@ -16,3 +16,16 @@ export const updatePost = (updated) => {
         body: JSON.stringify(updated)
     })
 }
+
+export const getCurrentUser = (id) => {
+    return fetch(`http://localhost:8088/user/${id}`)
+}
+
+export const getPosts = (currentUser) => {
+    // debugger
+    if (currentUser.is_staff === 1) {
+        return fetch(`http://localhost:8088/allposts`)
+    } else {
+        return fetch(`http://localhost:8088/posts`)
+    }
+}
