@@ -16,19 +16,20 @@ export const Posts = () => {
 
     return (
         <>
-        <h2>My Posts</h2>
+            <h2>My Posts</h2>
             <ul>
                 {posts?.map(post => {
-                    return <li>
+                    return <><li>
                         <div>
                             <ul>
                                 <li><Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link></li>
                                 <li>By {post.user.first_name} {post.user.last_name}</li>
                                 <li>Category: {post.category.label}</li>
+                                <li><Link to={`/edit_post/${post.id}`}>Edit</Link></li>
                             </ul>
                         </div>
                     </li>
-
+                    </>
                 })}
             </ul>
         </>
