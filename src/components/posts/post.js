@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useParams, useLocation } from "react-router-dom"
-
+import { deletePost } from "./PostProvider"
+import { useHistory } from "react-router"
 
 
 export const Post = () => {
@@ -8,6 +9,8 @@ export const Post = () => {
     const { postId } = useParams()
 
     const [post, setPost] = useState({})
+    const [toDelete, setDelete] = useState(false)
+    const history = useHistory()
 
     const [users, updateUsers] = useState([])
 
@@ -79,12 +82,21 @@ const postComment = (postComment) => {
         }
         )}
         </ul>
-        {isToggled === true
-        ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
-          <button onClick={() => constructComment()}>Submit</button>
-          <button onClick={() => toggleComment()}>Cancel</button>
-          </>
-        : <button onClick={() => toggleComment()}>Add Comment</button>}
+                {isToggled === true
+                ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
+                  <button onClick={() => constructComment()}>Submit</button>
+                  <button onClick={() => toggleComment()}>Cancel</button>
+                  </>
+                : <button onClick={() => toggleComment()}>Add Comment</button>}
+            {toDelete ?
+                <><p>Are you sure you wish to delete this post?</p>
+                    <button onClick={() => {
+                        deletePost(post.id)
+                            .then(history.push("/posts"))
+                    }}>Confirm Delete</button>
+                    <button onClick={() => { setDelete(false) }}>Cancel</button></>
+                :
+                <button onClick={() => { setDelete(true) }}>Delete Post</button>}
         </>
     )
 }
