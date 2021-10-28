@@ -6,13 +6,10 @@ import { getCurrentUser, getPosts } from "./PostProvider"
 export const AllPosts = () => {
     const [posts, updatePosts] = useState([])
     const [currentUser, setUser] = useState({})
-    console.log(currentUser)
 
-    useEffect(() => {
-        getPosts(currentUser)
-            .then(res => res.json())
-            .then(res => updatePosts(res))
-    }, [])
+    console.log(currentUser)
+    console.log(posts)
+
 
     useEffect(() => {
         getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
@@ -21,10 +18,16 @@ export const AllPosts = () => {
     }, []
     )
 
+    useEffect(() => {
+        getPosts(currentUser)
+            .then(res => res.json())
+            .then(res => updatePosts(res))
+    }, [currentUser])
+
     return (
         <>
             <h2>All Posts</h2>
-            {currentUser.is_staff ? <AllPostsAdmin posts={posts}/> :
+            {currentUser.is_staff ? <AllPostsAdmin posts={posts} currentUser={currentUser} updatePosts={updatePosts}/> :
                 <ul>
                     {posts?.map(post => {
                         return <>

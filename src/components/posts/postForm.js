@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
 import ReactDOM from 'react-dom'
+import { getCurrentUser } from "./PostProvider"
 
 export const PostForm = () => {
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
     const [newTag, setNewTag] = useState("")
-    const [posts, setPosts] = useState([])
     const [tags, setTags] = useState([])
+    const [user, setUser] = useState([])
     const history = useHistory()
 
     const getCats = () => {
@@ -28,13 +29,6 @@ export const PostForm = () => {
             .then(tags => setTags(tags))
     }
 
-    const getPosts = () => {
-        fetch('http://127.0.0.1:8088/posts')
-            .then(res => res.json())
-            .then(p => setPosts(p))
-    }
-
-
     useEffect(() => {
         getTags()
     }, [])
@@ -43,9 +37,10 @@ export const PostForm = () => {
         getCats()
     }, []
     )
-
     useEffect(() => {
-        getPosts()
+        getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
+            .then(res => res.json())
+            .then(user => setUser(user))
     }, [])
 
     const handleControlledInputChange = (event) => {
@@ -58,7 +53,9 @@ export const PostForm = () => {
         const copyPost = { ...post }
         copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
-        copyPost.approved = 0
+        if (user.is_staff === 0) { copyPost.approved = 0 }
+        else { copyPost.approved = 1 }
+        copyPost.category_id = parseInt(copyPost.category_id)
         //add tag array to post
         addPost(copyPost)
     }
