@@ -7,7 +7,7 @@ import { useHistory } from "react-router"
 export const Post = () => {
     
     const { postId } = useParams()
-
+    const [tags, setTags] = useState([])
     const [post, setPost] = useState({})
     const [toDelete, setDelete] = useState(false)
     const history = useHistory()
@@ -23,6 +23,16 @@ export const Post = () => {
     const getPost = () => {
         return fetch(`http://localhost:8088/post/${postId}`)
     }
+
+    const getTags = () => {
+        return fetch('http://127.0.0.1:8088/postTags')
+            .then(res => res.json())
+            .then(tags => setTags(tags))
+        }
+
+    useEffect(() => {
+        getTags()
+    }, [])
 
     const getUsers = () => {
         return fetch('http://localhost:8088/users')
@@ -70,6 +80,16 @@ const postComment = (postComment) => {
         <p>{post.content}</p>
         <h3>Posted: {post.publication_date}</h3>
         <p>By {post?.user?.first_name} {post?.user?.last_name}</p>
+        <h4>Tags</h4>
+        <ul>
+            {tags.map(tag => {
+                if (tag.post_id === post.id) {
+                    return <li>{tag?.tag?.label}</li>
+                } else {
+                    return ""
+                }
+            })}
+        </ul>
         <h4>Comments</h4>
         <ul>
         {post?.comments?.map(

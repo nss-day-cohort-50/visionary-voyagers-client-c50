@@ -3,11 +3,14 @@ import { useHistory } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 import { useParams } from "react-router"
 import { getPost, updatePost } from "./PostProvider"
+import { TagManager } from "../tags/tagManager"
 
 export const EditPost = () => {
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
+    const [allTags, setAllTags] = useState([])
+    const [postTags, setPostTags] = useState([])
     const history = useHistory()
 
     const { postId } = useParams()
@@ -22,6 +25,27 @@ export const EditPost = () => {
             .then(cats => setCategories(cats))
     }
 
+    const getPostTags = (postId) => {
+        return fetch(`http://127.0.0.1:8088/tagsbypost/${postId}`)
+            .then(res => res.json())
+            .then(postTags => setPostTags(postTags))
+    }
+    console.log(postTags)
+
+    const getAllTags = () => {
+        return fetch('http://127.0.0.1:8088/tags')
+            .then(res => res.json())
+            .then(allTags => setAllTags(allTags))
+    }
+
+    useEffect(() => {
+        getAllTags()
+    }, [])
+
+    useEffect(() => {
+        getPostTags(postId)
+    }, [])
+
     useEffect(() => {
         getCats()
     }, []
@@ -32,6 +56,25 @@ export const EditPost = () => {
             .then(post => setPost(post))
     }, []
     )
+
+    const handleTagCheckboxes = (event) => {
+        let newPost = {}
+        let chosenTag = parseInt(event.target.value)
+        newPost = Object.assign({}, post)
+        if (newPost.tagIds) {
+            if (newPost.tagIds.includes(chosenTag)) {
+                const index = newPost.tagIds.indexOf(chosenTag)
+                newPost.tagIds.pop([index])
+            }
+            else {
+                newPost.tagIds.push(chosenTag)
+            }
+        } else {
+            newPost.tagIds = []
+            newPost.tagIds.push(chosenTag)
+        }
+        setPost(newPost)
+    }
 
     const handleControlledInputChange = (event) => {
         const newPost = Object.assign({}, post)
@@ -64,6 +107,19 @@ export const EditPost = () => {
                         categories.map(c => <option name="category_id" selected={post.category_id === c.id ? true : false} value={c.id}>{c.label}</option>)
                     }
                 </select>
+            </div>
+            <div className="form-group">
+                <h4>Tags</h4>
+                {allTags.map(at => {
+                    return <>
+                        <label>{at.label}</label>
+                        <input type="checkbox" value={`${at.id}`}
+                            checked={
+                                postTags.some(pt => at.id === pt.tag_id) ? true : false}
+                            onChange={handleTagCheckboxes}></input>
+                    </>
+                })}
+
             </div>
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>
