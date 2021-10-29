@@ -8,7 +8,7 @@ export const EditPost = () => {
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
     const [newCat, setNewCat] = useState("")
-    const [tags, setTags] = useState([])
+    const [allTags, setAllTags] = useState([])
     const history = useHistory()
 
     const { postId } = useParams()
@@ -23,15 +23,16 @@ export const EditPost = () => {
             .then(cats => setCategories(cats))
     }
 
-    const getTags = () => {
-        return fetch('http://127.0.0.1:8088/postTags')
+    const getAllTags = () => {
+        return fetch('http://127.0.0.1:8088/tags')
             .then(res => res.json())
-            .then(tags => setTags(tags))
-        }
+            .then(allTags => setAllTags(allTags))
+    }
 
     useEffect(() => {
-        getTags()
+        getAllTags()
     }, [])
+
 
     useEffect(() => {
         getCats()
@@ -77,14 +78,14 @@ export const EditPost = () => {
                 </select>
             </div>
             <div className="form-group">
-                {tags.map(tag => {<>
-                    if (tag.post_id === post.id) {
-                        return <label name="tag_id" value={t.id}>{t.label}</label>
-                        <input type="checkbox" name="tag_id" value={`${t.id}`}></input>
-                    } else {
-                        
-                    }
-               </> })}
+                <h4>Tags</h4>
+                    {allTags.map(at => {   
+                        return <> 
+                                <label>{at.label}</label>               
+                                <input type="checkbox" value={`${at.id}`}></input>                              
+                            </> 
+                    })}
+                
             </div>
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>
