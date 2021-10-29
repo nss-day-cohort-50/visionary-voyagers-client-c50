@@ -79,10 +79,6 @@ export const PostForm = () => {
             newPost.tagIds.push(chosenTag)
         }
         setPost(newPost)
-        //create array to hold tag ids
-        //when a tag is clicked the id is appended to the array
-        //if the array already contains this id, it is not added
-        //update app state
     }
 
     const addPost = (post) => {
