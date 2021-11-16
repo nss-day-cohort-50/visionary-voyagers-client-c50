@@ -32,6 +32,7 @@ export const NavBar = () => {
                         <button className="nav-link fakeLink"
                             onClick={() => {
                                 localStorage.removeItem("rare_user")
+                                localStorage.removeItem("is_admin")
                                 history.push({ pathname: "/" })
                             }}
                         >Logout</button>
