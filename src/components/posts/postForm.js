@@ -58,7 +58,7 @@ export const PostForm = () => {
             },
             body: JSON.stringify(post)
         }).then(res => res.json())
-            .then(res => history.push(`/myposts`))
+            .then(res => { history.push(`/post/${res.id}`) })
     };
 
     return (
