@@ -2,14 +2,16 @@ import React, { useRef } from "react"
 import { Link, useHistory } from "react-router-dom"
 import "./Auth.css"
 
-export const Register = (props) => {
+export const Register = () => {
     const firstName = useRef()
     const lastName = useRef()
-    const email = useRef()
-    // const bio = useRef()
+    const username = useRef()
+    const bio = useRef()
     const password = useRef()
     const verifyPassword = useRef()
     const passwordDialog = useRef()
+    const profileImageURL = useRef()
+    const email = useRef()
     const history = useHistory()
 
     const handleRegister = (e) => {
@@ -17,14 +19,18 @@ export const Register = (props) => {
 
         if (password.current.value === verifyPassword.current.value) {
             const newUser = {
-                "username": email.current.value,
+                "email": email.current.value,
+                "username": username.current.value,
                 "first_name": firstName.current.value,
                 "last_name": lastName.current.value,
-                "email": email.current.value,
-                "password": password.current.value
+                "bio": bio.current.value,
+                "password": password.current.value,
+                "profileImageURL": profileImageURL.current.value,
+                "createdOn": new Date().toISOString().split('T')[0],
+                "active": true
             }
 
-            return fetch("http://127.0.0.1:8088/register", {
+            return fetch("http://127.0.0.1:8000/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -34,8 +40,8 @@ export const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    if ("id" in res) {
-                        localStorage.setItem("rare_user_id", res.token)
+                    if ("token" in res) {
+                        localStorage.setItem("rare_user", res.token)
                         history.push("/")
                     }
                 })
@@ -63,8 +69,12 @@ export const Register = (props) => {
                     <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="inputEmail"> Email address </label>
-                    <input ref={email} type="email" name="email" className="form-control" placeholder="Email address" required />
+                    <label htmlFor="inputEmail">Email</label>
+                    <input ref={email} type="text" name="email" className="form-control" placeholder="Email" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputUsername">Username</label>
+                    <input ref={username} type="text" name="username" className="form-control" placeholder="Username" required />
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputPassword"> Password </label>
@@ -74,10 +84,18 @@ export const Register = (props) => {
                     <label htmlFor="verifyPassword"> Verify Password </label>
                     <input ref={verifyPassword} type="password" name="verifyPassword" className="form-control" placeholder="Verify password" required />
                 </fieldset>
+                <fieldset>
+                    <label htmlFor="bio"> Bio </label>
+                    <textarea ref={bio} name="bio" className="form-control" placeholder="Let other gamers know a little bit about you..." />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="profileImage"> Profile Image </label>
+                    <textarea ref={profileImageURL} name="profile" className="form-control" placeholder="Upload a profile picture..." />
+                </fieldset>
                 <fieldset style={{
                     textAlign: "center"
                 }}>
-                    <button className="btn btn-1 btn-sep icon-send" type="submit">Register</button>
+                    <button className="btn btn-1 btn-sep icon-send" type="submit" onClick={handleRegister}>Register</button>
                 </fieldset>
             </form>
             <section className="link--register">

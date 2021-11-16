@@ -8,7 +8,7 @@ import { Register } from "./auth/Register"
 export const Rare = () => (
     <>
         <Route render={() => {
-            if (localStorage.getItem("rare_user_id")) {
+            if (localStorage.getItem("rare_user")) {
                 return <>
                     <NavBar />
                     <ApplicationViews />
