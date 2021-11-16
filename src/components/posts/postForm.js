@@ -117,6 +117,10 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                         event.preventDefault()
                         constructNewPost()
                     }}>Submit</button>
+                <button onClick={() => editPost.current.close()
+                }>
+                    Cancel
+                </button>
             </div>
         </form>
     )
