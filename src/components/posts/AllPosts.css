@@ -1,3 +1,9 @@
+.adminPostsTable ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 .deleteButton {
     background: none;
     border: 0;

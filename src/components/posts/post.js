@@ -16,7 +16,11 @@ export const Post = () => {
     const [commentText, setCommentText] = useState("")
 
     const getTags = () => {
-        return fetch('http://127.0.0.1:8000/postTags')
+        return fetch('http://127.0.0.1:8000/posttags', {
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
+            }
+        })
             .then(res => res.json())
             .then(tags => setTags(tags))
     }
@@ -69,7 +73,7 @@ export const Post = () => {
             <h4>Tags</h4>
             <ul>
                 {tags.map(tag => {
-                    if (tag.post_id === post.id) {
+                    if (tag?.post?.id === post.id) {
                         return <li>{tag?.tag?.label}</li>
                     } else {
                         return ""
