@@ -81,23 +81,8 @@ export const Post = () => {
                 })}
             </ul>
             <h4>Comments</h4>
-            {/* <ul>
-                {post?.comments?.map(
-                    comment => { //Iterating through comments
-                        for (const user of users) { //Scanning users for matching ids to comment author id
-                            if (comment?.author_id == user?.id) {
-                                return <li>{user.first_name} {user.last_name} said: "{comment?.content}" at {comment?.created_on}</li>
-                            }
-                        }
-                    }
-                )}
-            </ul> */}
-            {isToggled === true
-                ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
-                    <button onClick={() => constructComment()}>Submit</button>
-                    <button onClick={() => toggleComment()}>Cancel</button>
-                </>
-                : <button onClick={() => toggleComment()}>Add Comment</button>}
+           
+            <button onClick={() => history.push(`/post/${postId}/comments/`)}>Comments</button>
             {toDelete ?
                 <><p>Are you sure you wish to delete this post?</p>
                     <button onClick={() => {
