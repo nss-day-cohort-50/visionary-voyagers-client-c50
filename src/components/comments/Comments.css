@@ -1,0 +1,23 @@
+.comment-container{
+    border: 2px solid darkgray ;
+    border-radius: 8%;
+    margin-bottom: 1rem;
+    max-width: 15rem;
+    flex-basis: 100%;
+}
+.comment-container *{
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+.commenlist-container{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 45rem;
+}
+.comments-header{
+    display: flex;
+    justify-content: center;
+}

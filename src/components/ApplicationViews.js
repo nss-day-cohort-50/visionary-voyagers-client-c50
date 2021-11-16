@@ -7,6 +7,7 @@ import { Posts } from './posts/PostsList'
 import { TagManager } from './tags/tagManager'
 import { AllPosts } from "./posts/AllPosts.js"
 import { EditPost } from "./posts/EditPost.js"
+import { Comment } from "./comments/Comment.js"
 
 export const ApplicationViews = () => {
     return <>
@@ -34,6 +35,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route path="/tags">
                 <TagManager />
+            </Route>
+            <Route exact path ="/post/:postId/comments">
+                <Comment />
             </Route>
         </main>
     </>
