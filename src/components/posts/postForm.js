@@ -54,7 +54,7 @@ export const PostForm = () => {
         const copyPost = { ...post }
         // copyPost.user_id = parseInt(localStorage.getItem("rare_user"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
-        if (user.is_staff === 0) { copyPost.approved = 0 }
+        if (user.is_admin === 0) { copyPost.approved = 0 }
         else { copyPost.approved = 1 }
         copyPost.category_id = parseInt(copyPost.category_id)
         //add tag array to post

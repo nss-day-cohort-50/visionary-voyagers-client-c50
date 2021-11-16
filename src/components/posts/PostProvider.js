@@ -38,7 +38,7 @@ export const getPosts = () => {
         })
 }
 export const getMyPosts = () => {
-    return fetch(`http://localhost:8000/posts?q=postsbyuser`,
+    return fetch(`http://localhost:8000/posts?postsbyuser`,
         {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("rare_user")}`
@@ -50,7 +50,7 @@ export const getMyPosts = () => {
 
 // export const getPosts = (currentUser) => {
 //     // debugger
-//     if (currentUser.is_staff === 1) {
+//     if (currentUser.is_admin === 1) {
 //         return fetch(`http://localhost:8000/allposts`)
 //     } else {
 //         return fetch(`http://localhost:8000/posts`)

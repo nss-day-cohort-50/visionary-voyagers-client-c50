@@ -27,7 +27,7 @@ export const AllPosts = () => {
     return (
         <>
             <h2>All Posts</h2>
-            {localStorage.getItem("is_staff") === "true" ?
+            {localStorage.getItem("is_admin") === "True" ?
                 <AllPostsAdmin posts={posts} updatePosts={updatePosts} />
                 :
                 <>

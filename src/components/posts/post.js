@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams, useLocation } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { deletePost, getPost } from "./PostProvider"
 import { useHistory } from "react-router"
 import "./Posts.css"
@@ -11,13 +11,8 @@ export const Post = () => {
     const [post, setPost] = useState({})
     const [toDelete, setDelete] = useState(false)
     const history = useHistory()
-
-    const [users, updateUsers] = useState([])
-
     const [isToggled, setToggle] = useState(false)
-
     const [comment, setComment] = useState({})
-
     const [commentText, setCommentText] = useState("")
 
     const getTags = () => {
@@ -30,17 +25,10 @@ export const Post = () => {
         getTags()
     }, [])
 
-    const getUsers = () => {
-        return fetch('http://localhost:8000/users')
-    }
-
     useEffect(() => {
         getPost(postId)
             .then(res => res.json())
             .then(res => setPost(res))
-        getUsers()
-            .then(res => res.json())
-            .then(res => updateUsers(res))
     }, [isToggled])
 
     const toggleComment = () => {
@@ -89,7 +77,7 @@ export const Post = () => {
                 })}
             </ul>
             <h4>Comments</h4>
-            <ul>
+            {/* <ul>
                 {post?.comments?.map(
                     comment => { //Iterating through comments
                         for (const user of users) { //Scanning users for matching ids to comment author id
@@ -99,7 +87,7 @@ export const Post = () => {
                         }
                     }
                 )}
-            </ul>
+            </ul> */}
             {isToggled === true
                 ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
                     <button onClick={() => constructComment()}>Submit</button>
