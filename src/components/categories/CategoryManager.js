@@ -7,13 +7,21 @@ export const CategoryManager = () => {
     const [newCat, setNewCat] = useState({})
     const [editMode, setEditMode] = useState(false)
     const [triggerRender, setTrigger] = useState(0)
-
+    const [admin, setAdmin] = useState(Boolean)
     console.log(triggerRender)
-
-    useEffect(() => {
+    const render = () =>{
         getCats()
             .then(res => res.json())
             .then(cats => setCategories(cats))
+            setNewCat({label:""})
+    }
+    useEffect(() => {
+        render()
+        if (localStorage.getItem("is_admin") === "True"){
+            setAdmin(true)
+        }else{
+            setAdmin(false)
+        }
     }, [, triggerRender]
     )
 
@@ -45,16 +53,16 @@ export const CategoryManager = () => {
                         return <li key={cat.id}>
                             <div className="cat-list-item">
                                 {cat.label}
-                                <div>
+                                {admin ?<div>
                                     <button className="edit-delete"
                                         onClick={() => { editCategory(cat) }}>🔧</button>
                                     <button className="edit-delete"
                                         onClick={() => {
                                             deleteCategory(cat.id)
-                                                .then(updateTrigger())
+                                                .then(()=>render())
                                         }
                                         }>❌</button>
-                                </div>
+                                </div>:""}
                             </div>
                         </li>
                     })}
@@ -70,15 +78,18 @@ export const CategoryManager = () => {
                         {editMode ?
                             <><button className="submit-cat"
                                 onClick={() => updateCategory(newCat)
-                                    .then(updateTrigger())}>Update</button></>
+                                    .then(()=> render())}>Update</button></>
                             : <><button className="submit-cat"
                                 onClick={() => {
                                     postCategory(newCat)
-                                        .then(updateTrigger())
+                                        .then(()=>render())
                                 }}>Create</button></>}
                         {editMode ?
                             <><button className="submit-cat"
-                                onClick={() => setEditMode(false)}>Cancel</button></>
+                                onClick={() => {
+                                    setEditMode(false)
+                                    render()
+                                }}>Cancel</button></>
                             : ""
                         }
                     </fieldset>
