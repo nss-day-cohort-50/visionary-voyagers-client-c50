@@ -36,6 +36,6 @@ export const Comment = () =>{
                     
                     
                     <h2>Post Comments</h2>
-                    <CommentList comments={commentList} />
+                    <CommentList comments={commentList} render={render}/>
     </>)
 }
