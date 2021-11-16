@@ -98,7 +98,9 @@ export const Post = () => {
                 <><p>Are you sure you wish to delete this post?</p>
                     <button onClick={() => {
                         deletePost(parseInt(postId))
-                            .then(history.push("/posts"))
+                            .then(res => {
+                                if (res.ok) { history.push("/posts") }
+                            })
                     }}>Confirm Delete</button>
                     <button onClick={() => { setDelete(false) }}>Cancel</button></>
                 :
