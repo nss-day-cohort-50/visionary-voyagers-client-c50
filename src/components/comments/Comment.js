@@ -8,7 +8,7 @@ export const Comment = () =>{
     const [post, setPost] = useState({})
     const {postId} = useParams()
     const render = () =>{
-        getComments().then((data) => setCommentList(data))
+        getComments(postId).then((data) => setCommentList(data))
     }
     useEffect(() => {
         render()

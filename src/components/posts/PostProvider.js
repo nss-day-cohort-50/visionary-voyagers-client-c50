@@ -76,7 +76,7 @@ export const postComment = (postComment) => {
     })
 };
 export const getComments = (postId) => {
-    return fetch(`http://localhost:8000/comments?postId=1`,
+    return fetch(`http://localhost:8000/comments?postId=${postId}`,
         {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("rare_user")}`
