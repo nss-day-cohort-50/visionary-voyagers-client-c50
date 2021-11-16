@@ -50,7 +50,7 @@ export const Post = () => {
 
     const constructComment = () => {
         comment.post_id = parseInt(postId)
-        comment.author_id = parseInt(localStorage.getItem("rare_user_id"))
+        comment.author_id = parseInt(localStorage.getItem("rare_user"))
         comment.content = commentText
         postComment(comment)
         setToggle(!isToggled)

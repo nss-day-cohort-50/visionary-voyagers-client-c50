@@ -1,7 +1,7 @@
 export const deletePost = (id) => {
     return fetch(`http://127.0.0.1:8000/posts/${id}`, {
         headers: {
-            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     },
         { method: "DELETE" })
@@ -10,7 +10,7 @@ export const deletePost = (id) => {
 export const getPost = (id) => {
     return fetch(`http://localhost:8000/posts/${id}`, {
         headers: {
-            "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     })
 }
@@ -33,7 +33,7 @@ export const getPosts = () => {
     return fetch(`http://localhost:8000/posts`,
         {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
             }
         })
 }
@@ -41,7 +41,7 @@ export const getMyPosts = () => {
     return fetch(`http://localhost:8000/posts?q=postsbyuser`,
         {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
             }
         })
 }

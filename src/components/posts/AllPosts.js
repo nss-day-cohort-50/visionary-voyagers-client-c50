@@ -12,7 +12,7 @@ export const AllPosts = () => {
 
 
     // useEffect(() => {
-    //     getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
+    //     getCurrentUser(parseInt(localStorage.getItem('rare_user')))
     //         .then(res => res.json())
     //         .then(user => setUser(user))
     // }, []
@@ -40,7 +40,7 @@ export const AllPosts = () => {
                                             <li><Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link></li>
                                             <li>By {post.user.first_name} {post.user.last_name}</li>
                                             <li>Category: {post.category.label}</li>
-                                            {post.user_id === parseInt(localStorage.getItem('rare_user_id'))
+                                            {post.user_id === parseInt(localStorage.getItem('rare_user'))
                                                 ?
                                                 <li><Link to={`/edit_post/${post.id}`}>Edit</Link></li> : ""
                                             }

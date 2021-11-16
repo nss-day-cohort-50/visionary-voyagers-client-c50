@@ -39,7 +39,7 @@ export const PostForm = () => {
     }, []
     )
     // useEffect(() => {
-    //     getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
+    //     getCurrentUser(parseInt(localStorage.getItem('rare_user')))
     //         .then(res => res.json())
     //         .then(user => setUser(user))
     // }, [])
@@ -52,7 +52,7 @@ export const PostForm = () => {
 
     const constructNewPost = () => {
         const copyPost = { ...post }
-        // copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
+        // copyPost.user_id = parseInt(localStorage.getItem("rare_user"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
         if (user.is_staff === 0) { copyPost.approved = 0 }
         else { copyPost.approved = 1 }
@@ -82,7 +82,7 @@ export const PostForm = () => {
     }
 
     const addPost = (post) => {
-        return fetch(`http://localhost:8000/posts/${localStorage.getItem("rare_user_id")}`, {
+        return fetch(`http://localhost:8000/posts/${localStorage.getItem("rare_user")}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
