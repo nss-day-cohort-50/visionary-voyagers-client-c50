@@ -46,8 +46,25 @@ export const getMyPosts = () => {
         })
 }
 
-
-
+export const postComment = (postComment) => {
+    return fetch(`http://localhost:8000/comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
+        },
+        body: JSON.stringify(postComment)
+    })
+};
+export const getComments = (postId) => {
+    return fetch(`http://localhost:8000/comments?postId=1`,
+        {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
+               
+            }
+        }).then((res) => res.json())
+}
 // export const getPosts = (currentUser) => {
 //     // debugger
 //     if (currentUser.is_admin === 1) {

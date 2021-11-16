@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { deletePost, getPost } from "./PostProvider"
 import { useHistory } from "react-router"
 import "./Posts.css"
+import { Comment } from "./Comment"
 
 export const Post = () => {
 
@@ -36,23 +37,9 @@ export const Post = () => {
         console.log(post.comments)
     }
 
-    const constructComment = () => {
-        comment.post_id = parseInt(postId)
-        comment.author_id = parseInt(localStorage.getItem("rare_user"))
-        comment.content = commentText
-        postComment(comment)
-        setToggle(!isToggled)
-    }
+    
 
-    const postComment = (postComment) => {
-        return fetch(`http://localhost:8000/comments`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(postComment)
-        })
-    };
+    
 
 
     return (
@@ -76,24 +63,6 @@ export const Post = () => {
                     }
                 })}
             </ul>
-            <h4>Comments</h4>
-            {/* <ul>
-                {post?.comments?.map(
-                    comment => { //Iterating through comments
-                        for (const user of users) { //Scanning users for matching ids to comment author id
-                            if (comment?.author_id == user?.id) {
-                                return <li>{user.first_name} {user.last_name} said: "{comment?.content}" at {comment?.created_on}</li>
-                            }
-                        }
-                    }
-                )}
-            </ul> */}
-            {isToggled === true
-                ? <><textarea placeholder="Type your comment here..." onChange={(e) => setCommentText(e.target.value)}></textarea>
-                    <button onClick={() => constructComment()}>Submit</button>
-                    <button onClick={() => toggleComment()}>Cancel</button>
-                </>
-                : <button onClick={() => toggleComment()}>Add Comment</button>}
             {toDelete ?
                 <><p>Are you sure you wish to delete this post?</p>
                     <button onClick={() => {
@@ -103,6 +72,12 @@ export const Post = () => {
                     <button onClick={() => { setDelete(false) }}>Cancel</button></>
                 :
                 <button onClick={() => { setDelete(true) }}>Delete Post</button>}
+            <h4>Comments</h4>
+            
+            
+             <Comment postId={postId} toggleComment={toggleComment} toggled={isToggled}/>
+                
+            
         </>
     )
 }

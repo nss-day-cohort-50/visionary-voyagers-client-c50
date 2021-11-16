@@ -17,7 +17,7 @@ export const CategoryManager = () => {
     }
     useEffect(() => {
         render()
-        if (localStorage.getItem("is_admin") === "True"){
+        if (localStorage.getItem("is_admin") === "true"){
             setAdmin(true)
         }else{
             setAdmin(false)
