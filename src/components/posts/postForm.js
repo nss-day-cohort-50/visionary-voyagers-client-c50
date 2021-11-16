@@ -1,48 +1,19 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
-import ReactDOM from 'react-dom'
-import { getCurrentUser } from "./PostProvider"
+import { getCategories, getTags } from "./PostProvider"
 
 export const PostForm = () => {
-    const [post, setPost] = useState({})
+    const [post, setPost] = useState()
     const [categories, setCategories] = useState([])
-    const [newCat, setNewCat] = useState("")
-    const [newTag, setNewTag] = useState("")
     const [tags, setTags] = useState([])
-    const [tagArray, setTagArray] = useState([])
-    const [user, setUser] = useState([])
     const history = useHistory()
-
-    const getCats = () => {
-        const copy = { ...newCat }
-        copy.label = ""
-        setNewCat(copy)
-        fetch('http://127.0.0.1:8000/categories')
-            .then(res => res.json())
-            .then(cats => setCategories(cats))
-    }
-    const getTags = () => {
-        const copy = { ...newTag }
-        copy.label = ""
-        setNewTag(copy)
-        fetch('http://127.0.0.1:8000/tags')
-            .then(res => res.json())
-            .then(tags => setTags(tags))
-    }
 
     useEffect(() => {
         getTags()
+            .then(tags => setTags(tags))
+        getCategories()
+            .then(cats => setCategories(cats))
     }, [])
-
-    useEffect(() => {
-        getCats()
-    }, []
-    )
-    // useEffect(() => {
-    //     getCurrentUser(parseInt(localStorage.getItem('rare_user')))
-    //         .then(res => res.json())
-    //         .then(user => setUser(user))
-    // }, [])
 
     const handleControlledInputChange = (event) => {
         const newPost = Object.assign({}, post)
@@ -52,19 +23,16 @@ export const PostForm = () => {
 
     const constructNewPost = () => {
         const copyPost = { ...post }
-        // copyPost.user_id = parseInt(localStorage.getItem("rare_user"))
-        copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
-        if (user.is_admin === 0) { copyPost.approved = 0 }
-        else { copyPost.approved = 1 }
+        if (localStorage.getItem("is_admin") === "false") { copyPost.approved = false }
+        else { copyPost.approved = true }
         copyPost.category_id = parseInt(copyPost.category_id)
         //add tag array to post
         addPost(copyPost)
-        console.log(copyPost)
     }
 
     const handleTagCheckboxes = (event) => {
         let newPost = {}
-        let chosenTag = parseInt(event.target.value) 
+        let chosenTag = parseInt(event.target.value)
         newPost = Object.assign({}, post)
         if (newPost.tagIds) {
             if (newPost.tagIds.includes(chosenTag)) {
@@ -82,14 +50,15 @@ export const PostForm = () => {
     }
 
     const addPost = (post) => {
-        return fetch(`http://localhost:8000/posts/${localStorage.getItem("rare_user")}`, {
+        return fetch(`http://localhost:8000/posts`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
             },
             body: JSON.stringify(post)
         }).then(res => res.json())
-            .then(res => history.push(`/post/${res.id}`))
+            .then(res => history.push(`/myposts`))
     };
 
     return (
@@ -97,11 +66,11 @@ export const PostForm = () => {
             <h2 className="postForm__title">New Post</h2>
             <div className="form-group">
                 <label htmlFor="category">Category: </label>
-                <select type="text" name="category_id" className="form-control"
+                <select type="text" name="categoryId" className="form-control"
                     placeholder="Category"
                     defaultValue="Choose a Category"
                     onChange={handleControlledInputChange}>
-                    <option>Choose a Category</option>
+                    <option value="Choose a Category">Choose a Category</option>
                     {
                         categories.map(c => <option name="category_id" value={c.id}>{c.label}</option>)
                     }
@@ -110,26 +79,24 @@ export const PostForm = () => {
             <div className="form-group">
                 {tags.map(t => (<>
                     <label name="tag_id" value={t.id}>{t.label}</label>
-                        <input type="checkbox" name="tag_id" value={`${t.id}`}
+                    <input type="checkbox" name="tag_id" value={`${t.id}`}
                         onChange={handleTagCheckboxes}></input>
-                        </>))}
+                </>))}
             </div>
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>
                 <input type="text" name="title" className="form-control"
                     placeholder="Title"
                     defaultValue=""
-                    value={post.title}
                     onChange={handleControlledInputChange}
                 />
             </div>
-            {post.image_url ? <img src={post.image_url} /> : ""}
+            {post?.imageUrl ? <img src={post.imageUrl} /> : ""}
             <div className="form-group">
                 <label htmlFor="imageURL">Image link</label>
-                <input type="text" name="image_url" className="form-control"
+                <input type="text" name="imageUrl" className="form-control"
                     placeholder="Place URL here"
                     defaultValue=""
-                    value={post.image_url}
                     onChange={handleControlledInputChange}
                 />
             </div>
@@ -137,7 +104,6 @@ export const PostForm = () => {
                 <label htmlFor="content">Post Description:</label>
                 <textarea className="textarea" name="content" className="form-control"
                     placeholder="Description"
-                    value={post.content}
                     onChange={handleControlledInputChange}
                 ></textarea>
             </div>
