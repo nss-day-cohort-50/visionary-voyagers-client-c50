@@ -12,7 +12,7 @@ export const AllPosts = () => {
 
 
     useEffect(() => {
-        getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
+        getCurrentUser(parseInt(localStorage.getItem('rare_user')))
             .then(res => res.json())
             .then(user => setUser(user))
     }, []

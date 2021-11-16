@@ -26,7 +26,8 @@ export const Login = () => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem("lu_token", res.token)
+                    localStorage.setItem("rare_user", res.token)
+                    localStorage.setItem("is_admin", res.is_admin)
                     history.push("/")
                 }
                 else {
@@ -38,25 +39,25 @@ export const Login = () => {
     return (
         <main className="container--login">
             <dialog className="dialog dialog--auth" ref={invalidDialog}>
-                <div>Email or password was not valid.</div>
+                <div>Username or password was not valid.</div>
                 <button className="button--close" onClick={e => invalidDialog.current.close()}>Close</button>
             </dialog>
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Rare Publishing</h1>
+                    <h1>Rare</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
                         <label htmlFor="inputEmail"> Username </label>
-                        <input ref={username} type="text" id="email" className="form-control" defaultValue="steve@brownlee.com" placeholder="Email address" required autoFocus />
+                        <input ref={username} type="text" id="username" className="form-control"  placeholder="username" required autoFocus />
                     </fieldset>
                     <fieldset>
                         <label htmlFor="inputPassword"> Password </label>
-                        <input ref={password} type="password" id="password" className="form-control" defaultValue="steve" placeholder="Password" required />
+                        <input ref={password} type="password" id="password" className="form-control" placeholder="Password" required />
                     </fieldset>
                     <fieldset style={{
                         textAlign: "center"
                     }}>
-                        <button className="btn btn-1 btn-sep icon-send" type="submit">Sign In</button>
+                        <button className="btn btn-1 btn-sep icon-send" type="submit" onClick={handleLogin}>Sign In</button>
                     </fieldset>
                 </form>
             </section>

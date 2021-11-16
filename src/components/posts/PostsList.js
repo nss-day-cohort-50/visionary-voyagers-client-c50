@@ -11,7 +11,7 @@ export const Posts = () => {
     }, [])
 
     const getPosts = () => {
-        return fetch(`http://localhost:8088/myposts/${localStorage.getItem('rare_user_id')}`)
+        return fetch(`http://localhost:8088/myposts/${localStorage.getItem('rare_user')}`)
     }
 
     return (
