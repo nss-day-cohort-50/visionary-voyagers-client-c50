@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { getPosts, updatePost } from "./PostProvider"
 import "./AllPosts.css"
+import { EditDeleteModal } from "./EditDeleteModal"
 
-export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
+export const AllPostsAdmin = ({ posts, currentUser, updatePosts, editPost, confirmDelete }) => {
+    const [postToModify, setPost] = useState()
 
     const handleApproval = (post) => {
         let copy = post
@@ -24,6 +26,7 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
 
     return (
         <>
+            <EditDeleteModal postToModify={postToModify} updatePosts={updatePosts} confirmDelete={confirmDelete} editPost={editPost} />
             <h2>Admin</h2>
             <table className="adminPostsTable">
                 <thead>
@@ -43,13 +46,13 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
                             <td className="icons" >
                                 <button className="deleteButton"
                                     onClick={() => {
-                                        // setPost(post)
-                                        // editPost.current.showModal()
+                                        setPost(post)
+                                        editPost.current.showModal()
                                     }}><span role="img" aria-label="emoji">⚙️</span></button>
                                 <button className="deleteButton"
                                     onClick={() => {
-                                        // setPost(post)
-                                        // confirmDelete.current.showModal()
+                                        setPost(post)
+                                        confirmDelete.current.showModal()
                                     }}>
                                     <span role="img" aria-label="emoji">🗑️</span>
                                 </button>

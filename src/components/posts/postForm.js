@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
 import { getCategories, getTags } from "./PostProvider"
+import { useParams } from "react-router"
 
-export const PostForm = () => {
+export const PostForm = ({ postToModify, editPost, updatePosts }) => {
+    const { postId } = useParams()
     const [post, setPost] = useState()
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
@@ -63,7 +65,9 @@ export const PostForm = () => {
 
     return (
         <form className="postForm">
-            <h2 className="postForm__title">New Post</h2>
+            <h2 className="postForm__title">
+                {postId ? "Edit Post" : "New Post"}
+            </h2>
             <div className="form-group">
                 <label htmlFor="category">Category: </label>
                 <select type="text" name="categoryId" className="form-control"
@@ -87,7 +91,7 @@ export const PostForm = () => {
                 <label htmlFor="title">Post Title:</label>
                 <input type="text" name="title" className="form-control"
                     placeholder="Title"
-                    defaultValue=""
+                    defaultValue="post"
                     onChange={handleControlledInputChange}
                 />
             </div>

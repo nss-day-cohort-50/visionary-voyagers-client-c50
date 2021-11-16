@@ -102,13 +102,13 @@ export const EditPost = () => {
                     placeholder="Category"
                     defaultValue={post?.category_id}
                     onChange={handleControlledInputChange}>
-                    <option value={null} disabled>Select Category</option>
+                    <option value={"null"} disabled>Select Category</option>
                     {
                         categories.map(c => <option name="category_id" selected={post.category_id === c.id ? true : false} value={c.id}>{c.label}</option>)
                     }
                 </select>
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
                 <h4>Tags</h4>
                 {allTags.map(at => {
                     return <>
@@ -120,7 +120,7 @@ export const EditPost = () => {
                     </>
                 })}
 
-            </div>
+            </div> */}
             <div className="form-group">
                 <label htmlFor="title">Post Title:</label>
                 <input type="text" name="title" className="form-control"

@@ -30,7 +30,7 @@ export const ApplicationViews = () => {
                 <CategoryManager />
             </Route>
             <Route path="/edit_post/:postId">
-                <EditPost />
+                <PostForm />
             </Route>
             <Route path="/tags">
                 <TagManager />

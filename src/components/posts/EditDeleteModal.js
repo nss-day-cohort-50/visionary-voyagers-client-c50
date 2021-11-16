@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { EditPost } from "./EditPost";
+import { PostForm } from "./postForm";
 import { deletePost, getMyPosts } from "./PostProvider";
 
 export const EditDeleteModal = ({ postToModify, updatePosts, confirmDelete, editPost }) => {
@@ -30,7 +31,7 @@ export const EditDeleteModal = ({ postToModify, updatePosts, confirmDelete, edit
         </dialog>
         <dialog className="editPostModal" ref={editPost}>
             <h2>Edit post '{postToModify?.title}'</h2>
-            <EditPost postToModify={postToModify} editPost={editPost} updatePosts={updatePosts} />
+            <PostForm postToModify={postToModify} editPost={editPost} updatePosts={updatePosts} />
         </dialog>
     </>)
 }
