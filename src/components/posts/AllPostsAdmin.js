@@ -5,7 +5,7 @@ import "./AllPosts.css"
 import { EditDeleteModal } from "./EditDeleteModal"
 
 export const AllPostsAdmin = ({ posts, currentUser, updatePosts, editPost, confirmDelete }) => {
-    const [postToModify, setPost] = useState()
+    const [postToModify, setPost] = useState({})
 
     const handleApproval = (post) => {
         let copy = post

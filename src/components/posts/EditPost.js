@@ -12,8 +12,8 @@ export const EditPost = () => {
     const [allTags, setAllTags] = useState([])
     const [postTags, setPostTags] = useState([])
     const history = useHistory()
-
     const { postId } = useParams()
+
     console.log(post)
 
     const getCats = () => {

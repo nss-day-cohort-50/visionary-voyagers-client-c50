@@ -9,12 +9,16 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
     const history = useHistory()
+    console.log(post)
 
     useEffect(() => {
         getTags()
             .then(tags => setTags(tags))
         getCategories()
             .then(cats => setCategories(cats))
+        if (postId) {
+            setPost(postToModify)
+        }
     }, [])
 
     const handleControlledInputChange = (event) => {
@@ -74,7 +78,7 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                     placeholder="Category"
                     defaultValue="Choose a Category"
                     onChange={handleControlledInputChange}>
-                    <option value="Choose a Category">Choose a Category</option>
+                    <option value="Choose a Category" selected={postToModify?.category_id}>Choose a Category</option>
                     {
                         categories.map(c => <option name="category_id" value={c.id}>{c.label}</option>)
                     }

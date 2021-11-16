@@ -5,7 +5,6 @@ import { getPosts } from "./PostProvider"
 
 export const AllPosts = () => {
     const [posts, updatePosts] = useState([])
-    const [postToModify, setPost] = useState()
     const confirmDelete = useRef()
     const editPost = useRef()
 
@@ -17,7 +16,6 @@ export const AllPosts = () => {
 
     return (
         <>
-
             <h2>All Posts</h2>
             {localStorage.getItem("is_admin") === "true" ?
                 <AllPostsAdmin posts={posts} updatePosts={updatePosts} editPost={editPost} confirmDelete={confirmDelete} />
