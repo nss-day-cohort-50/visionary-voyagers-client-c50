@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
-import { getCategories, getTags } from "./PostProvider"
+import { getCategories, getPost, getTags } from "./PostProvider"
 import { useParams } from "react-router"
 
 export const PostForm = ({ postToModify, editPost, updatePosts }) => {
@@ -17,7 +17,8 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
         getCategories()
             .then(cats => setCategories(cats))
         if (postId) {
-            setPost(postToModify)
+            getPost(postId)
+                .then(post => setPost(post))
         }
     }, [])
 

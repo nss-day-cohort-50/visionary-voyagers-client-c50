@@ -30,7 +30,6 @@ export const EditDeleteModal = ({ postToModify, updatePosts, confirmDelete, edit
             </div>
         </dialog>
         <dialog className="editPostModal" ref={editPost}>
-            <h2>Edit post '{postToModify?.title}'</h2>
             <PostForm postToModify={postToModify} editPost={editPost} updatePosts={updatePosts} />
         </dialog>
     </>)

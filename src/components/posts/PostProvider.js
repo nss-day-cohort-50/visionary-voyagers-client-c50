@@ -14,6 +14,7 @@ export const getPost = (id) => {
             "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     })
+    .then(res=>res.json())
 }
 
 export const getCategories = () => {
