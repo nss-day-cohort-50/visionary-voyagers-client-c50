@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom"
 import { deletePost, getPost } from "./PostProvider"
 import { useHistory } from "react-router"
 import "./Posts.css"
-import { Comment } from "./Comment"
 
 export const Post = () => {
 
@@ -37,9 +36,23 @@ export const Post = () => {
         console.log(post.comments)
     }
 
-    
+    const constructComment = () => {
+        comment.post_id = parseInt(postId)
+        comment.author_id = parseInt(localStorage.getItem("rare_user"))
+        comment.content = commentText
+        postComment(comment)
+        setToggle(!isToggled)
+    }
 
-    
+    const postComment = (postComment) => {
+        return fetch(`http://localhost:8000/comments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postComment)
+        })
+    };
 
 
     return (
@@ -63,6 +76,9 @@ export const Post = () => {
                     }
                 })}
             </ul>
+            <h4>Comments</h4>
+           
+            <button onClick={() => history.push(`/post/${postId}/comments/`)}>Comments</button>
             {toDelete ?
                 <><p>Are you sure you wish to delete this post?</p>
                     <button onClick={() => {
@@ -74,12 +90,6 @@ export const Post = () => {
                     <button onClick={() => { setDelete(false) }}>Cancel</button></>
                 :
                 <button onClick={() => { setDelete(true) }}>Delete Post</button>}
-            <h4>Comments</h4>
-            
-            
-             <Comment postId={postId} toggleComment={toggleComment} toggled={isToggled}/>
-                
-            
         </>
     )
 }
