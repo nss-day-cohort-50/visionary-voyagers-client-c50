@@ -67,7 +67,11 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
                                 {post.category.label}
                             </td>
                             <td>
-                                {post.tags}
+                                <ul>
+                                    {post?.tags?.map(tag => {
+                                        return <li>{`${tag?.label}`}</li>
+                                    })}
+                                </ul>
                             </td>
                             <td>
                                 <label htmlFor="approved">{post.approved ? 'Approved' : 'Unapproved'}</label>
