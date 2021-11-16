@@ -42,6 +42,7 @@ export const Register = () => {
                 .then(res => {
                     if ("token" in res) {
                         localStorage.setItem("rare_user", res.token)
+                        localStorage.setItem("is_admin", false)
                         history.push("/")
                     }
                 })

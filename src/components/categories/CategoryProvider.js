@@ -2,7 +2,7 @@
 export const getCats = () => {
     return fetch('http://127.0.0.1:8000/categories',{
         headers:{
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     })
 }
@@ -12,7 +12,7 @@ export const updateCategory = (newCat) => {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         },
         body: JSON.stringify(newCat)
     })
@@ -22,7 +22,7 @@ export const deleteCategory = (id) => {
     return fetch(`http://127.0.0.1:8000/categories/${id}`,
         { method: "DELETE",
         headers:{
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         } })
 }
 
@@ -31,7 +31,7 @@ export const postCategory = (newCat) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         },
         body: JSON.stringify(newCat)
     })

@@ -27,11 +27,11 @@ export const NavBar = () => {
                 <Link className="navbar__link" to="/create_post">Create Post</Link>
             </li>
             {
-                (localStorage.getItem("rare_user_id") !== null) ?
+                (localStorage.getItem("rare_user") !== null) ?
                     <li className="nav-item">
                         <button className="nav-link fakeLink"
                             onClick={() => {
-                                localStorage.removeItem("rare_user_id")
+                                localStorage.removeItem("rare_user")
                                 history.push({ pathname: "/" })
                             }}
                         >Logout</button>
