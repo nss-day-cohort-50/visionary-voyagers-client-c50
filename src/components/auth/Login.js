@@ -26,7 +26,8 @@ export const Login = () => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem("rare_token", res.token)
+                    localStorage.setItem("rare_user", res.token)
+                    localStorage.setItem("is_admin", true)
                     history.push("/")
                 }
                 else {
@@ -43,13 +44,11 @@ export const Login = () => {
             </dialog>
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Level Up</h1>
+                    <h1>Rare</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
-                        <label htmlFor="inputUsername"> Username address </label>
-                        <input ref={username} type="username" id="username" className="form-control" placeholder="Username address" required autoFocus />
                         <label htmlFor="inputEmail"> Username </label>
-                        <input ref={username} type="text" id="email" className="form-control" defaultValue="steve@brownlee.com" placeholder="Email address" required autoFocus />
+                        <input ref={username} type="text" id="username" className="form-control"  placeholder="username" required autoFocus />
                     </fieldset>
                     <fieldset>
                         <label htmlFor="inputPassword"> Password </label>
