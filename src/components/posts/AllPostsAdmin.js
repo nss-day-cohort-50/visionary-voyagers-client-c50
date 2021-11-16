@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { getPosts, updatePost } from "./PostProvider"
+import "./AllPosts.css"
 
 export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
 
@@ -24,10 +25,10 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
     return (
         <>
             <h2>Admin</h2>
-            <table>
+            <table className="adminPostsTable">
                 <thead>
                     <tr>
-                        <td></td>
+                        <td><span role="img" aria-label="emoji">⚙️🗑️</span></td>
                         <td>Title</td>
                         <td>Author</td>
                         <td>Date</td>
@@ -36,35 +37,47 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
                         <td>Approved</td>
                     </tr>
                 </thead>
-                {posts?.map(post => {
-                    return <><tr>
-                        <td>
-                            <Link to={`/edit_post/${post.id}`}>⚙️</Link>
-                            <Link to={`/edit_post/${post.id}`}>🗑️</Link>
-                        </td>
-                        <td>
-                            <Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link>
-                        </td>
-                        <td>
-                            {post.user.first_name} {post.user.last_name}
-                        </td>
-                        <td>
-                            {post.publication_date}
-                        </td>
-                        <td>
-                            {post.category.label}
-                        </td>
-                        <td>
-                            {post.tags}
-                        </td>
-                        <td>
-                            <label htmlFor="approved">{post.approved ? 'Approved' : 'Unapproved'}</label>
-                            <input type="checkbox" name="approved" checked={post.approved}
-                                onChange={() => handleApproval(post)} />
-                        </td>
-                    </tr>
-                    </>
-                })}
+                <tbody>
+                    {posts?.map(post => {
+                        return <><tr key={`tr-${post.id}`}>
+                            <td className="icons" >
+                                <button className="deleteButton"
+                                    onClick={() => {
+                                        // setPost(post)
+                                        // editPost.current.showModal()
+                                    }}><span role="img" aria-label="emoji">⚙️</span></button>
+                                <button className="deleteButton"
+                                    onClick={() => {
+                                        // setPost(post)
+                                        // confirmDelete.current.showModal()
+                                    }}>
+                                    <span role="img" aria-label="emoji">🗑️</span>
+                                </button>
+                            </td>
+                            <td>
+                                <Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link>
+                            </td>
+                            <td>
+                                {post.user.user.first_name} {post.user.user.last_name}
+                            </td>
+                            <td>
+                                {post.publication_date}
+                            </td>
+                            <td>
+                                {post.category.label}
+                            </td>
+                            <td>
+                                {post.tags}
+                            </td>
+                            <td>
+                                <label htmlFor="approved">{post.approved ? 'Approved' : 'Unapproved'}</label>
+                                <input type="checkbox" name="approved" checked={post.approved}
+                                    onChange={() => handleApproval(post)} />
+                            </td>
+                        </tr>
+                        </>
+                    })}
+                </tbody>
             </table>
         </>
     )

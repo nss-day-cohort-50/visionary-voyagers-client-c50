@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { getMyPosts } from "./PostProvider"
 
 
 export const Posts = () => {
     const [posts, updatePosts] = useState([])
     useEffect(() => {
-        getPosts()
+        getMyPosts()
             .then(res => res.json())
             .then(res => updatePosts(res))
     }, [])
-
-    const getPosts = () => {
-        return fetch(`http://localhost:8088/myposts/${localStorage.getItem('rare_user_id')}`)
-    }
 
     return (
         <>

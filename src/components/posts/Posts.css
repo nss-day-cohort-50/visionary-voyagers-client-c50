@@ -1,0 +1,11 @@
+.postImage {
+    display: flex;
+    width: 40%;
+    border: 3px solid goldenrod;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.postImage img {
+    width: 100%;
+}

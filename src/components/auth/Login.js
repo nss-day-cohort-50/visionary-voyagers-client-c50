@@ -12,7 +12,7 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch(`http://127.0.0.1:8088/users`)
+        return fetch(`http://127.0.0.1:8000/users`)
             .then(res => res.json())
             .then(res => {
                 const foundUser = res.find(user => user.email === email.current.value)
