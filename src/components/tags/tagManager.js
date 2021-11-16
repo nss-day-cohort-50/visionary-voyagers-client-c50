@@ -7,13 +7,22 @@ export const TagManager = () => {
     const [newTag, setNewTag] = useState({})
     const [editMode, setEditMode] = useState(false)
     const [triggerRender, setTrigger] = useState(0)
-
+    const [admin, setAdmin] = useState(Boolean)
     console.log(triggerRender)
-
-    useEffect(() => {
+    const render = () =>{
         getTags()
             .then(res => res.json())
             .then(t => setTags(t))
+        setNewTag({label: ""})
+        
+    }
+    useEffect(() => {
+        render()
+        if (localStorage.getItem("is_admin") === "True"){
+            setAdmin(true)
+        }else{
+            setAdmin(false)
+        }
     }, [, triggerRender]
     )
 
@@ -45,16 +54,16 @@ export const TagManager = () => {
                         return <li key={tag.id}>
                             <div className="tag-list-item">
                                 {tag.label}
-                                <div>
+                                {admin ?<div>
                                     <button className="edit-delete"
                                         onClick={() => { editTag(tag) }}>🔧</button>
                                     <button className="edit-delete"
                                         onClick={() => {
                                             deleteTag(tag.id)
-                                                .then(updateTrigger())
+                                                .then(()=> render())
                                         }
                                         }>❌</button>
-                                </div>
+                                </div>:""}
                             </div>
                         </li>
                     })}
@@ -70,15 +79,18 @@ export const TagManager = () => {
                         {editMode ?
                             <><button className="submit-tag"
                                 onClick={() => updateTag(newTag)
-                                    .then(updateTrigger())}>Update</button></>
+                                    .then(()=> render())}>Update</button></>
                             : <><button className="submit-tag"
                                 onClick={() => {
                                     postTag(newTag)
-                                        .then(updateTrigger())
+                                        .then(()=> render())
                                 }}>Create</button></>}
                         {editMode ?
                             <><button className="submit-tag"
-                                onClick={() => setEditMode(false)}>Cancel</button></>
+                                onClick={() => {
+                                    setEditMode(false)
+                                    render()
+                                }}>Cancel</button></>
                             : ""
                         }
                     </fieldset>
