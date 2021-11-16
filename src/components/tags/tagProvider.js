@@ -1,7 +1,7 @@
 export const getTags = () => {
     return fetch('http://127.0.0.1:8000/tags',{
         headers:{
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     })
 }
@@ -11,7 +11,7 @@ export const updateTag = (newTag) => {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         },
         body: JSON.stringify(newTag)
     })
@@ -22,7 +22,7 @@ export const deleteTag = (id, setTags) => {
         { method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         } })
 }
 
@@ -31,7 +31,7 @@ export const postTag = (newTag) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         },
         body: JSON.stringify(newTag)
     })

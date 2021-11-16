@@ -17,7 +17,7 @@ export const PostForm = () => {
         const copy = { ...newCat }
         copy.label = ""
         setNewCat(copy)
-        fetch('http://127.0.0.1:8088/categories')
+        fetch('http://127.0.0.1:8000/categories')
             .then(res => res.json())
             .then(cats => setCategories(cats))
     }
@@ -25,7 +25,7 @@ export const PostForm = () => {
         const copy = { ...newTag }
         copy.label = ""
         setNewTag(copy)
-        fetch('http://127.0.0.1:8088/tags')
+        fetch('http://127.0.0.1:8000/tags')
             .then(res => res.json())
             .then(tags => setTags(tags))
     }
@@ -38,11 +38,11 @@ export const PostForm = () => {
         getCats()
     }, []
     )
-    useEffect(() => {
-        getCurrentUser(parseInt(localStorage.getItem('rare_user_id')))
-            .then(res => res.json())
-            .then(user => setUser(user))
-    }, [])
+    // useEffect(() => {
+    //     getCurrentUser(parseInt(localStorage.getItem('rare_user')))
+    //         .then(res => res.json())
+    //         .then(user => setUser(user))
+    // }, [])
 
     const handleControlledInputChange = (event) => {
         const newPost = Object.assign({}, post)
@@ -52,9 +52,9 @@ export const PostForm = () => {
 
     const constructNewPost = () => {
         const copyPost = { ...post }
-        copyPost.user_id = parseInt(localStorage.getItem("rare_user_id"))
+        // copyPost.user_id = parseInt(localStorage.getItem("rare_user"))
         copyPost.publication_date = Date(Date.now()).toLocaleString('en-us').split('GMT')[0]
-        if (user.is_staff === 0) { copyPost.approved = 0 }
+        if (user.is_admin === 0) { copyPost.approved = 0 }
         else { copyPost.approved = 1 }
         copyPost.category_id = parseInt(copyPost.category_id)
         //add tag array to post
@@ -82,7 +82,7 @@ export const PostForm = () => {
     }
 
     const addPost = (post) => {
-        return fetch(`http://localhost:8088/posts/${localStorage.getItem("rare_user_id")}`, {
+        return fetch(`http://localhost:8000/posts/${localStorage.getItem("rare_user")}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

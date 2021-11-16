@@ -20,20 +20,20 @@ export const EditPost = () => {
         const copy = { ...newCat }
         copy.label = ""
         setNewCat(copy)
-        fetch('http://127.0.0.1:8088/categories')
+        fetch('http://127.0.0.1:8000/categories')
             .then(res => res.json())
             .then(cats => setCategories(cats))
     }
 
     const getPostTags = (postId) => {
-        return fetch(`http://127.0.0.1:8088/tagsbypost/${postId}`)
+        return fetch(`http://127.0.0.1:8000/tagsbypost/${postId}`)
             .then(res => res.json())
             .then(postTags => setPostTags(postTags))
     }
     console.log(postTags)
 
     const getAllTags = () => {
-        return fetch('http://127.0.0.1:8088/tags')
+        return fetch('http://127.0.0.1:8000/tags')
             .then(res => res.json())
             .then(allTags => setAllTags(allTags))
     }
