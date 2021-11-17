@@ -1,12 +1,19 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Link, useHistory } from "react-router-dom"
 import { deleteComment, updateComment } from "./CommentProvider"
 import "./Comments.css"
-export const CommentList = ({comments, render}) => {
+import { DeleteModal } from "./DeleteModal"
+export const CommentList = ({comments, render, postId}) => {
     const history = useHistory()
     const [editMode, setEditMode] = useState(0)
     const [content, setContent] =useState("")
-    return(<><div className="commenlist-container">
+    const [commentId, setCommentId] = useState(0)
+    const confirmDelete = useRef()
+    return(<>
+    
+    <div className="commenlist-container">
+    <DeleteModal confirmDelete={confirmDelete} postId={postId} commentId={commentId} render= {render} />
+
     {comments.length > 0 ?<>
             {comments?.map((comment)=>{
                 return(<div className="comment-container">
@@ -32,8 +39,8 @@ export const CommentList = ({comments, render}) => {
                                 setContent(comment.content)
                                 setEditMode(comment.id)}}><span role="img" aria-label="emoji">⚙️</span></Link>
                             <Link className="comment-link" onClick={()=>{
-                                deleteComment(comment.id)
-                                .then(render)
+                                setCommentId(comment.id)
+                                confirmDelete.current.showModal()
                             }}><span role="img" aria-label="emoji">🗑️</span></Link>
                             </div>
                         </div>)
