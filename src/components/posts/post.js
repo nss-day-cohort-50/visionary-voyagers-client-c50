@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
-import { deletePost, getPost } from "./PostProvider"
+import { getPost } from "./PostProvider"
 import { useHistory } from "react-router"
 import "./Post.css"
+import { EditDeleteModal } from "./EditDeleteModal"
 
 export const Post = () => {
     const { postId } = useParams()
     const [tags, setTags] = useState([])
     const [post, setPost] = useState({})
-    const [toDelete, setDelete] = useState(false)
     const history = useHistory()
-    const [isToggled, setToggle] = useState(false)
     const confirmDelete = useRef()
-    const editPost = useRef()
 
     const getTags = () => {
         return fetch('http://127.0.0.1:8000/posttags', {
@@ -31,21 +29,21 @@ export const Post = () => {
     useEffect(() => {
         getPost(postId)
             .then(res => setPost(res))
-    }, [isToggled])
+    }, [postId])
 
     return (
         <>
+            <EditDeleteModal postToModify={post} confirmDelete={confirmDelete} />
             <article className="postDetails">
                 <section className="postBody">
-
-                    <h1>{post.title}<br/>
-                    {post.approved ? "" : "(Pending Approval)"}
+                    <h1>{post.title}<br />
+                        {post.approved ? "" : "(Pending Approval)"}
                     </h1>
                     <section className="postDetailHeader">
                         <div className="buttons">
                             <button className="deleteButton"
                                 onClick={() =>
-                                    history.push(`edit_post/${post.id}`)
+                                    history.push(`/edit_post/${postId}`)
                                 }>
                                 ⚙️
                             </button>
@@ -81,18 +79,6 @@ export const Post = () => {
 
                     <p className="content">{post.content}</p>
                     <p className="content">Published: {post.publication_date}</p>
-
-                    {toDelete ?
-                        <><p>Are you sure you wish to delete this post?</p>
-                            <button onClick={() => {
-                                deletePost(parseInt(postId))
-                                    .then(res => {
-                                        if (res.ok) { history.push("/posts") }
-                                    })
-                            }}>Confirm Delete</button>
-                            <button onClick={() => { setDelete(false) }}>Cancel</button></>
-                        :
-                        <button onClick={() => { setDelete(true) }}>Delete Post</button>}
                 </section>
                 <section className="tags">
                     {tags.map(tag => {

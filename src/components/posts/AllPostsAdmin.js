@@ -9,12 +9,13 @@ export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) =
 
     const handleApproval = (post) => {
         let copy = post
-        if (copy.approved === false) {
-            copy.approved = true
-        } else {
-            copy.approved = false
-        }
+        if (copy.approved === false) { copy.approved = true }
+        else { copy.approved = false }
         copy.category_id = copy.category.id
+        copy.tagIds = []
+        for (const tag of copy.tags) {
+            copy.tagIds.push(tag.id)
+        }
         updatePost(copy)
             .then(response => {
                 if (response.ok) {
@@ -27,6 +28,7 @@ export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) =
     return (
         <>
             <EditDeleteModal postToModify={postToModify} updatePosts={updatePosts} confirmDelete={confirmDelete} editPost={editPost} />
+
             <h2>Admin</h2>
             <table className="adminPostsTable">
                 <thead>

@@ -12,15 +12,19 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
     console.log(post)
 
     useEffect(() => {
-        getTags()
-            .then(tags => setTags(tags))
-        getCategories()
-            .then(cats => setCategories(cats))
-        if (postId) {
-            getPost(postId)
-                .then(post => setPost(post))
-        } else if (editPost) {
-            setPost(postToModify)
+        if (postId || editPost) {
+            getTags()
+                .then(tags => setTags(tags))
+            getCategories()
+                .then(cats => setCategories(cats))
+            if (postId) {
+                getPost(postId)
+                    .then(post => setInitialTags(post))
+            }
+            else if (editPost) {
+                getPost(postToModify?.id)
+                    .then(post => setInitialTags(post))
+            }
         }
     }, [postId, postToModify])
 
@@ -43,15 +47,16 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
         let newPost = {}
         let chosenTag = parseInt(event.target.value)
         newPost = Object.assign({}, post)
-        if (newPost.tagIds) {
-            if (newPost.tagIds.includes(chosenTag)) {
-                const index = newPost.tagIds.indexOf(chosenTag)
-                newPost.tagIds.pop([index])
-            }
-            else {
-                newPost.tagIds.push(chosenTag)
-            }
-        } else {
+        if (newPost.tagIds && newPost.tagIds.includes(chosenTag)) {
+            // If there is an existing tagIds array and the array includes the chosenTag, remove it from the array:
+            const index = newPost.tagIds.indexOf(chosenTag)
+            newPost.tagIds.splice(index, 1)
+        }
+        else if (newPost.tagIds && !newPost.tagIds.includes(chosenTag)) {
+            // If there is an existing tagIds array but the chosen tag is not included, push it to the array.
+            newPost.tagIds.push(chosenTag)
+        }
+        else if (!newPost.tagIds) {
             newPost.tagIds = []
             newPost.tagIds.push(chosenTag)
         }
@@ -92,6 +97,38 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
             })
     }
 
+    const checkTags = (tagId) => {
+        // If a post has been set in state but there are no tagIds, check the post.tags to match up with the tag.id
+        if (postId && post && !post.tagIds) {
+            const foundTag = post.tags.find(tag => {
+                return tag.id === tagId
+            })
+            if (foundTag) {
+                return true
+            }
+            else { return false }
+            // If a post has been set and tagIds array is set, check if the tagId is included in the post.tagIds array.
+        } else if (post?.tagIds) {
+            const foundTag = post.tagIds.find(id => {
+                return id === tagId
+            })
+            if (foundTag) { return true }
+            else { return false }
+        }
+    }
+
+    const setInitialTags = (post) => {
+        const copy = { ...post }
+        copy.tagIds = []
+        if (postToModify || postId) {
+            //If there are existing tags, add them to the tagIds array.
+            for (const tag of post?.tags) {
+                copy.tagIds.push(tag.id)
+            }
+        }
+        setPost(copy)
+    }
+
     return (
         <form className="postForm">
             <h2 className="postForm__title">
@@ -116,6 +153,7 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                 {tags.map(t => (<>
                     <label name="tag_id" value={t.id}>{t.label}</label>
                     <input type="checkbox" name="tag_id" value={`${t.id}`}
+                        checked={checkTags(t.id)}
                         onChange={handleTagCheckboxes}></input>
                 </>))}
             </div>
