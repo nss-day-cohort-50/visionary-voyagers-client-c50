@@ -1,28 +1,28 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 import { CommentList } from "./CommentList"
 import { getComments, getPost, postComment } from "../posts/PostProvider"
 import { useParams } from "react-router"
-export const Comment = () =>{
+export const Comment = () => {
     const [comment, setCommentText] = useState("")
     const [commentList, setCommentList] = useState({})
     const [post, setPost] = useState({})
-    const {postId} = useParams()
-    const render = () =>{
+    const { postId } = useParams()
+    const render = () => {
         getComments(postId).then((data) => setCommentList(data))
     }
     useEffect(() => {
         render()
-        getPost(postId).then((res)=> res.json()).then((data) => setPost(data))
+        getPost(postId).then((data) => setPost(data))
     }, [])
     const constructComment = () => {
         const object = {
             content: comment,
-            postId : postId
+            postId: postId
         }
-        
+
         postComment(object)
-        .then(render)
-        .then(setCommentText(""))
+            .then(render)
+            .then(setCommentText(""))
     }
     return (<>
                     <h2>{post.title}</h2>
