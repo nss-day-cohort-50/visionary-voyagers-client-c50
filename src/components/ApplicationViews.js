@@ -14,8 +14,11 @@ export const ApplicationViews = () => {
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
         }}>
+            <Route exact path="/">
+                <Posts subscriptions={true}/>
+            </Route>
             <Route path="/myposts">
-                <Posts />
+                <Posts/>
             </Route>
             <Route path="/posts">
                 <AllPosts />

@@ -4,7 +4,7 @@ import { useHistory } from "react-router"
 import { EditDeleteModal } from "./EditDeleteModal"
 import { Link } from "react-router-dom"
 
-export const Posts = () => {
+export const Posts = ({ subscriptions }) => {
     const [posts, updatePosts] = useState([])
     const [postToModify, setPost] = useState({})
     const history = useHistory()
@@ -19,7 +19,7 @@ export const Posts = () => {
     return (
         <>
             <EditDeleteModal confirmDelete={confirmDelete} postToModify={postToModify} updatePosts={updatePosts} />
-            <h2>My Posts</h2>
+            <h2>{subscriptions ? "Subscribed Users Feed" : "My Posts"}</h2>
             {posts?.map(post => {
                 return <>
                     <section className="postContainer">
@@ -49,19 +49,25 @@ export const Posts = () => {
                                 <div className="reactionCount">
                                     #reaction count
                                 </div>
-                                <button className="deleteButton"
-                                    onClick={() =>
-                                        history.push(`edit_post/${post.id}`)
-                                    }>
-                                    ⚙️
-                                </button>
-                                <button className="deleteButton"
-                                    onClick={() => {
-                                        setPost(post);
-                                        confirmDelete.current.showModal()
-                                    }}>
-                                    🗑️
-                                </button>
+                                {subscriptions ?
+                                    ""
+                                    :
+                                    <>
+                                        <button className="deleteButton"
+                                            onClick={() =>
+                                                history.push(`edit_post/${post.id}`)
+                                            }>
+                                            ⚙️
+                                        </button>
+                                        <button className="deleteButton"
+                                            onClick={() => {
+                                                setPost(post);
+                                                confirmDelete.current.showModal()
+                                            }}>
+                                            🗑️
+                                        </button>
+                                    </>
+                                }
                             </div>
                         </div>
 
