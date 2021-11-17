@@ -4,21 +4,21 @@ import { getPosts, updatePost } from "./PostProvider"
 import "./AllPosts.css"
 import { EditDeleteModal } from "./EditDeleteModal"
 
-export const AllPostsAdmin = ({ posts, currentUser, updatePosts, editPost, confirmDelete }) => {
+export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) => {
     const [postToModify, setPost] = useState({})
 
     const handleApproval = (post) => {
         let copy = post
-        if (copy.approved === 1) {
-            copy.approved = 0
+        if (copy.approved === false) {
+            copy.approved = true
         } else {
-            copy.approved = 1
+            copy.approved = false
         }
+        copy.category_id = copy.category.id
         updatePost(copy)
             .then(response => {
                 if (response.ok) {
-                    getPosts(currentUser)
-                        .then(res => res.json())
+                    getPosts()
                         .then(res => updatePosts(res))
                 }
             })
@@ -46,7 +46,7 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts, editPost, confi
                             <td className="icons" >
                                 <button className="deleteButton"
                                     onClick={() => {
-                                        setPost(post)
+                                        setPost(post);
                                         editPost.current.showModal()
                                     }}><span role="img" aria-label="emoji">⚙️</span></button>
                                 <button className="deleteButton"

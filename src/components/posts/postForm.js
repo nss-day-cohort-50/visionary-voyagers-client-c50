@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
-import { getCategories, getPost, getTags } from "./PostProvider"
+import { getCategories, getPost, getPosts, getTags, updatePost } from "./PostProvider"
 import { useParams } from "react-router"
 
 export const PostForm = ({ postToModify, editPost, updatePosts }) => {
@@ -19,8 +19,10 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
         if (postId) {
             getPost(postId)
                 .then(post => setPost(post))
+        } else if (editPost) {
+            setPost(postToModify)
         }
-    }, [])
+    }, [postId, postToModify])
 
     const handleControlledInputChange = (event) => {
         const newPost = Object.assign({}, post)
@@ -66,22 +68,47 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
             body: JSON.stringify(post)
         }).then(res => res.json())
             .then(res => { history.push(`/post/${res.id}`) })
-    };
+    }
+
+    const constructUpdated = () => {
+        const copyPost = { ...post }
+        // Checks and handles changes to category dropdown.
+        if (copyPost.category_id) {
+            copyPost.category_id = parseInt(copyPost.category_id)
+        } else {
+            copyPost.category_id = post.category.id
+        }
+        updatePost(copyPost)
+            // Waits for an ok response, then either closes the modal or pushes to the post details page.
+            .then(response => {
+                if (response.ok && postId) {
+                    history.push(`/post/${post.id}`)
+                }
+                else if (response.ok && !postId) {
+                    getPosts()
+                        .then(posts => updatePosts(posts))
+                        .then(editPost.current.close())
+                }
+            })
+    }
 
     return (
         <form className="postForm">
             <h2 className="postForm__title">
-                {postId ? "Edit Post" : "New Post"}
+                {postId || postToModify ? "Edit Post" : "New Post"}
             </h2>
             <div className="form-group">
                 <label htmlFor="category">Category: </label>
-                <select type="text" name="categoryId" className="form-control"
+                <select type="text" name="category_id" className="form-control"
                     placeholder="Category"
-                    defaultValue="Choose a Category"
+                    defaultValue={editPost || postId ? post?.category?.id : 0}
                     onChange={handleControlledInputChange}>
-                    <option value="Choose a Category" selected={postToModify?.category_id}>Choose a Category</option>
+                    <option value={0} disabled>Choose a Category</option>
                     {
-                        categories.map(c => <option name="category_id" value={c.id}>{c.label}</option>)
+                        categories.map(c =>
+                            <option name="category_id" value={c.id}>
+                                {c.label}
+                            </option>)
                     }
                 </select>
             </div>
@@ -96,16 +123,16 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                 <label htmlFor="title">Post Title:</label>
                 <input type="text" name="title" className="form-control"
                     placeholder="Title"
-                    defaultValue="post"
+                    defaultValue={post?.title}
                     onChange={handleControlledInputChange}
                 />
             </div>
-            {post?.imageUrl ? <img src={post.imageUrl} /> : ""}
+            {post?.image_url ? <img src={post.image_url} /> : ""}
             <div className="form-group">
                 <label htmlFor="imageURL">Image link</label>
-                <input type="text" name="imageUrl" className="form-control"
+                <input type="text" name="image_url" className="form-control"
                     placeholder="Place URL here"
-                    defaultValue=""
+                    defaultValue={post?.image_url}
                     onChange={handleControlledInputChange}
                 />
             </div>
@@ -113,6 +140,7 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                 <label htmlFor="content">Post Description:</label>
                 <textarea className="textarea" name="content" className="form-control"
                     placeholder="Description"
+                    defaultValue={post?.content}
                     onChange={handleControlledInputChange}
                 ></textarea>
             </div>
@@ -120,10 +148,26 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
                 <button type="submit"
                     onClick={event => {
                         event.preventDefault()
-                        constructNewPost()
-                    }}>Submit</button>
-                <button onClick={() => editPost.current.close()
-                }>
+                        if (postId || editPost) {
+                            constructUpdated()
+                        } else {
+                            constructNewPost()
+                        }
+                    }}>
+                    {
+                        editPost || postId ?
+                            "Save Changes"
+                            : "Submit"
+                    }
+                </button>
+                <button onClick={() => {
+                    if (postId || !editPost) {
+                        history.push("/myposts")
+                    }
+                    else {
+                        editPost.current.close()
+                    }
+                }}>
                     Cancel
                 </button>
             </div>

@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect, useRef } from "react"
 import { getMyPosts } from "./PostProvider"
-
+import { useHistory } from "react-router"
+import { EditDeleteModal } from "./EditDeleteModal"
 
 export const Posts = () => {
     const [posts, updatePosts] = useState([])
+    const [postToModify, setPost] = useState({})
+    const history = useHistory()
+    const confirmDelete = useRef()
+
     useEffect(() => {
         getMyPosts()
             .then(res => res.json())
@@ -13,23 +17,49 @@ export const Posts = () => {
 
     return (
         <>
+            <EditDeleteModal confirmDelete={confirmDelete} postToModify={postToModify} updatePosts={updatePosts} />
             <h2>My Posts</h2>
-            <ul>
-                {posts?.map(post => {
-                    return <><li>
-                        <div>
-                            <ul>
-                                {post.approved === 0 ? <li><i>Pending Approval</i></li> : ""}
-                                <li><Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link></li>
-                                <li>By {post.user.user.first_name} {post.user.user.last_name}</li>
-                                <li>Category: {post.category.label}</li>
-                                <li><Link to={`/edit_post/${post.id}`}>Edit</Link></li>
-                            </ul>
+            {posts?.map(post => {
+                return <>
+                    <section className="postContainer">
+
+                        <div className="postHeader">
+                            <h2>{post.title} <br />
+                                {post.approved === false ? "(Pending Approval)" : ""}
+                            </h2>
+                            <h4>Publication Date: {post.publication_date}</h4>
                         </div>
-                    </li>
-                    </>
-                })}
-            </ul>
+
+                        <div className="postFeedImage"><img src={post.image_url} /></div>
+
+                        <div className="postFooter">
+                            <div>
+                                Author: {post.user.user.first_name} {post.user.user.last_name}<br />
+                                Category: {post.category.label}
+                            </div>
+                            <div className="reaction-edit-delete">
+                                <div className="reactionCount">
+                                    #reaction count
+                                </div>
+                                <button className="deleteButton"
+                                    onClick={() =>
+                                        history.push(`edit_post/${post.id}`)
+                                    }>
+                                    ⚙️
+                                </button>
+                                <button className="deleteButton"
+                                    onClick={() => {
+                                        setPost(post);
+                                        confirmDelete.current.showModal()
+                                    }}>
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+
+                    </section>
+                </>
+            })}
         </>
     )
 }
