@@ -34,6 +34,7 @@ export const CommentList = ({comments, render, postId}) => {
                             </>:<h4> {comment.content}</h4>}
                             <h3>User: {comment.author.user.first_name} {comment.author.user.last_name}</h3>
                             <p><small>Posted on {comment.created_on}</small></p>
+                            {localStorage.getItem("is_admin") === "true" || comment.is_author ? 
                             <div className="comment-buttons">
                             <Link className="comment-link" onClick={()=>{
                                 setContent(comment.content)
@@ -42,7 +43,7 @@ export const CommentList = ({comments, render, postId}) => {
                                 setCommentId(comment.id)
                                 confirmDelete.current.showModal()
                             }}><span role="img" aria-label="emoji">🗑️</span></Link>
-                            </div>
+                            </div>:""}
                         </div>)
             })}</>:""}</div>
     </>)
