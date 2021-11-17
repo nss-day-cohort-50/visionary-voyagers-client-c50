@@ -28,7 +28,12 @@ export const AllPosts = () => {
                                     <h2><Link to={`/post/${post.id}`}>{post.title}</Link></h2>
                                     <h4>Publication Date: {post.publication_date}</h4>
                                 </div>
-                                <div className="postFeedImage"><img src={post.image_url} /></div>
+                                <div className="postFeedImage">
+                                    {post.image_url?.includes(".") ?
+                                        <img src={post.image_url} />
+                                        : <img src={"https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png"} />
+                                    }
+                                </div>
                                 <div className="postFooter">
                                     <div>
                                         Author: {post.user.user.first_name} {post.user.user.last_name}<br />

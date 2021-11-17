@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { getMyPosts } from "./PostProvider"
 import { useHistory } from "react-router"
 import { EditDeleteModal } from "./EditDeleteModal"
+import { Link } from "react-router-dom"
 
 export const Posts = () => {
     const [posts, updatePosts] = useState([])
@@ -24,13 +25,20 @@ export const Posts = () => {
                     <section className="postContainer">
 
                         <div className="postHeader">
-                            <h2>{post.title} <br />
+                            <h2>
+                                <Link to={`post/${post.id}`}>{post.title}</Link>
+                                <br />
                                 {post.approved === false ? "(Pending Approval)" : ""}
                             </h2>
                             <h4>Publication Date: {post.publication_date}</h4>
                         </div>
 
-                        <div className="postFeedImage"><img src={post.image_url} /></div>
+                        <div className="postFeedImage">
+                            {post.image_url?.includes(".") ?
+                                <img src={post.image_url} />
+                                : <img src={"https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png"} />
+                            }
+                        </div>
 
                         <div className="postFooter">
                             <div>

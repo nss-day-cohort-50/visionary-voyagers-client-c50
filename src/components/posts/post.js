@@ -38,7 +38,9 @@ export const Post = () => {
             <article className="postDetails">
                 <section className="postBody">
 
-                    <h1>{post.title}</h1>
+                    <h1>{post.title}<br/>
+                    {post.approved ? "" : "(Pending Approval)"}
+                    </h1>
                     <section className="postDetailHeader">
                         <div className="buttons">
                             <button className="deleteButton"
@@ -59,11 +61,14 @@ export const Post = () => {
                             {post?.category?.label}
                         </div>
                     </section>
-                    {post.image_url !== null || post.image_url !== ""
+                    {post.image_url?.includes(".")
                         ? <div className="postDetailImage">
                             <img src={`${post.image_url}`} alt="Post" />
                         </div>
-                        : <p>No image found</p>}
+                        : <div className="postDetailImage">
+                            <img src={`https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png`} alt="Post" />
+                        </div>
+                    }
                     <section className="interactions">
                         <div>By: {post.user?.user.first_name} {post.user?.user.last_name}</div>
                         <div>
