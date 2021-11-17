@@ -12,19 +12,17 @@ export const PostForm = ({ postToModify, editPost, updatePosts }) => {
     console.log(post)
 
     useEffect(() => {
-        if (postId || editPost) {
-            getTags()
-                .then(tags => setTags(tags))
-            getCategories()
-                .then(cats => setCategories(cats))
-            if (postId) {
-                getPost(postId)
-                    .then(post => setInitialTags(post))
-            }
-            else if (editPost) {
-                getPost(postToModify?.id)
-                    .then(post => setInitialTags(post))
-            }
+        getTags()
+            .then(tags => setTags(tags))
+        getCategories()
+            .then(cats => setCategories(cats))
+        if (postId) {
+            getPost(postId)
+                .then(post => setInitialTags(post))
+        }
+        else if (editPost) {
+            getPost(postToModify?.id)
+                .then(post => setInitialTags(post))
         }
     }, [postId, postToModify])
 
