@@ -1,22 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { getPosts, updatePost } from "./PostProvider"
 import "./AllPosts.css"
+import { EditDeleteModal } from "./EditDeleteModal"
 
-export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
+export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) => {
+    const [postToModify, setPost] = useState({})
 
     const handleApproval = (post) => {
         let copy = post
-        if (copy.approved === 1) {
-            copy.approved = 0
-        } else {
-            copy.approved = 1
+        if (copy.approved === false) { copy.approved = true }
+        else { copy.approved = false }
+        copy.category_id = copy.category.id
+        copy.tagIds = []
+        for (const tag of copy.tags) {
+            copy.tagIds.push(tag.id)
         }
         updatePost(copy)
             .then(response => {
                 if (response.ok) {
-                    getPosts(currentUser)
-                        .then(res => res.json())
+                    getPosts()
                         .then(res => updatePosts(res))
                 }
             })
@@ -24,6 +27,8 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
 
     return (
         <>
+            <EditDeleteModal postToModify={postToModify} updatePosts={updatePosts} confirmDelete={confirmDelete} editPost={editPost} />
+
             <h2>Admin</h2>
             <table className="adminPostsTable">
                 <thead>
@@ -43,19 +48,19 @@ export const AllPostsAdmin = ({ posts, currentUser, updatePosts }) => {
                             <td className="icons" >
                                 <button className="deleteButton"
                                     onClick={() => {
-                                        // setPost(post)
-                                        // editPost.current.showModal()
+                                        setPost(post);
+                                        editPost.current.showModal()
                                     }}><span role="img" aria-label="emoji">⚙️</span></button>
                                 <button className="deleteButton"
                                     onClick={() => {
-                                        // setPost(post)
-                                        // confirmDelete.current.showModal()
+                                        setPost(post)
+                                        confirmDelete.current.showModal()
                                     }}>
                                     <span role="img" aria-label="emoji">🗑️</span>
                                 </button>
                             </td>
                             <td>
-                                <Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link>
+                                <Link to={`/post/${post.id}`}>{post.title}</Link>
                             </td>
                             <td>
                                 {post.user.user.first_name} {post.user.user.last_name}

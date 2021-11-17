@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import { AllPostsAdmin } from "./AllPostsAdmin"
 import { getPosts } from "./PostProvider"
+import "./Posts.css"
 
 export const AllPosts = () => {
     const [posts, updatePosts] = useState([])
-    // const [currentUser, setUser] = useState({})
-
-    // console.log(currentUser)
-    console.log(posts)
-
-
-    // useEffect(() => {
-    //     getCurrentUser(parseInt(localStorage.getItem('rare_user')))
-    //         .then(res => res.json())
-    //         .then(user => setUser(user))
-    // }, []
-    // )
+    const confirmDelete = useRef()
+    const editPost = useRef()
 
     useEffect(() => {
         getPosts()
-            .then(res => res.json())
             .then(res => updatePosts(res))
     }, [])
 
@@ -28,28 +18,34 @@ export const AllPosts = () => {
         <>
             <h2>All Posts</h2>
             {localStorage.getItem("is_admin") === "true" ?
-                <AllPostsAdmin posts={posts} updatePosts={updatePosts} />
+                <AllPostsAdmin posts={posts} updatePosts={updatePosts} editPost={editPost} confirmDelete={confirmDelete} />
                 :
                 <>
-                    <ul>
-                        {posts?.map(post => {
-                            return <>
-                                <li>
+                    {posts?.map(post => {
+                        return <>
+                            <section className="postContainer">
+                                <div className="postHeader">
+                                    <h2><Link to={`/post/${post.id}`}>{post.title}</Link></h2>
+                                    <h4>Publication Date: {post.publication_date}</h4>
+                                </div>
+                                <div className="postFeedImage">
+                                    {post.image_url?.includes(".") ?
+                                        <img src={post.image_url} />
+                                        : <img src={"https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png"} />
+                                    }
+                                </div>
+                                <div className="postFooter">
                                     <div>
-                                        <ul>
-                                            <li><Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link></li>
-                                            <li>By {post.user.first_name} {post.user.last_name}</li>
-                                            <li>Category: {post.category.label}</li>
-                                            {post.user_id === parseInt(localStorage.getItem('rare_user'))
-                                                ?
-                                                <li><Link to={`/edit_post/${post.id}`}>Edit</Link></li> : ""
-                                            }
-                                        </ul>
+                                        Author: {post.user.user.first_name} {post.user.user.last_name}<br />
+                                        Category: {post.category.label}
                                     </div>
-                                </li>
-                            </>
-                        })}
-                    </ul>
+                                    <div className="reactionCount">
+                                        #reaction count
+                                    </div>
+                                </div>
+                            </section>
+                        </>
+                    })}
                 </>
             }
         </>

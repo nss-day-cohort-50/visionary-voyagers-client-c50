@@ -9,3 +9,71 @@
 .postImage img {
     width: 100%;
 }
+
+.postFeedImage {
+    display: flex;
+    margin: auto;
+    width: 50%;
+    height: 70%;
+}
+
+.postFeedImage:hover {
+    animation: grow ease-in 0.3s;
+    transform: scale(110%);
+}
+
+.postFeedImage img {
+    width: 100%;
+    object-fit: cover;
+}
+
+@keyframes grow {
+    from {
+        transform: scale(100%);
+    }
+    to {
+        transform: scale(110%);
+    }
+}
+
+.postContainer {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 2em;
+    height: 25em;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.postHeader {
+    display: flex;
+    justify-content: space-between;
+}
+.postHeader a {
+    text-decoration: none;
+    color: black;
+}
+.postHeader a:hover{
+    color: goldenrod;
+}
+
+.postFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.reactionCount{
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 0.2em;
+    align-self: center;
+}
+
+.reaction-edit-delete{
+    display: flex;
+    justify-content: space-evenly;
+}

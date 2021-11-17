@@ -14,6 +14,7 @@ export const getPost = (id) => {
             "Authorization": `Token ${localStorage.getItem("rare_user")}`
         }
     })
+        .then(res => res.json())
 }
 
 export const getCategories = () => {
@@ -38,15 +39,12 @@ export const updatePost = (updated) => {
     return fetch(`http://localhost:8000/posts/${updated.id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
         },
         body: JSON.stringify(updated)
     })
 }
-
-// export const getCurrentUser = (id) => {
-//     return fetch(`http://localhost:8000/user/${id}`)
-// }
 
 export const getPosts = () => {
     return fetch(`http://localhost:8000/posts`,
@@ -55,6 +53,7 @@ export const getPosts = () => {
                 "Authorization": `Token ${localStorage.getItem("rare_user")}`
             }
         })
+        .then(res => res.json())
 }
 export const getMyPosts = () => {
     return fetch(`http://localhost:8000/posts?postsbyuser`,
@@ -74,21 +73,14 @@ export const postComment = (postComment) => {
         },
         body: JSON.stringify(postComment)
     })
-};
+}
+
 export const getComments = (postId) => {
     return fetch(`http://localhost:8000/comments?postId=${postId}`,
         {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("rare_user")}`
-               
+
             }
         }).then((res) => res.json())
 }
-// export const getPosts = (currentUser) => {
-//     // debugger
-//     if (currentUser.is_admin === 1) {
-//         return fetch(`http://localhost:8000/allposts`)
-//     } else {
-//         return fetch(`http://localhost:8000/posts`)
-//     }
-// }
