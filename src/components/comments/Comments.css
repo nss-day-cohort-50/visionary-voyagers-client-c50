@@ -21,3 +21,10 @@
     display: flex;
     justify-content: center;
 }
+.comment-buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.comment-link{
+    text-decoration: none;
+}
