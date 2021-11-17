@@ -25,17 +25,17 @@ export const Comment = () => {
             .then(setCommentText(""))
     }
     return (<>
-        <h2>{post.title}</h2>
-        <div className="comments-header">
-            <textarea placeholder="Type your comment here..." value={comment} onChange={(e) => setCommentText(e.target.value)}></textarea>
-            <button onClick={() => {
-                constructComment()
-
-            }}>Submit</button>
-        </div>
-
-
-        <h2>Post Comments</h2>
-        <CommentList comments={commentList} />
+                    <h2>{post.title}</h2>
+                    <div className="comments-header">
+                    <textarea placeholder="Type your comment here..." value={comment}onChange={(e) => setCommentText(e.target.value)}></textarea>
+                    <button onClick={() => {
+                        constructComment()
+                        
+                        }}>Submit</button>
+                    </div>
+                    
+                    
+                    <h2>Post Comments</h2>
+                    <CommentList comments={commentList} render={render}/>
     </>)
 }
