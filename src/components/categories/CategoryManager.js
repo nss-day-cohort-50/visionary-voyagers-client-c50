@@ -8,7 +8,7 @@ export const CategoryManager = () => {
     const [editMode, setEditMode] = useState(false)
     const [triggerRender, setTrigger] = useState(0)
     const [admin, setAdmin] = useState(Boolean)
-    console.log(triggerRender)
+
     const render = () =>{
         getCats()
             .then(res => res.json())

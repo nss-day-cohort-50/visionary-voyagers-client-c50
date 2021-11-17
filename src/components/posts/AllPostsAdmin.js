@@ -60,7 +60,7 @@ export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) =
                                 </button>
                             </td>
                             <td>
-                                <Link to={{ pathname: `/post/${post.id}`, state: { author: `${post.user.first_name}` } }}>{post.title}</Link>
+                                <Link to={`/post/${post.id}`}>{post.title}</Link>
                             </td>
                             <td>
                                 {post.user.user.first_name} {post.user.user.last_name}

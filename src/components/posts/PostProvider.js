@@ -73,7 +73,8 @@ export const postComment = (postComment) => {
         },
         body: JSON.stringify(postComment)
     })
-};
+}
+
 export const getComments = (postId) => {
     return fetch(`http://localhost:8000/comments?postId=${postId}`,
         {

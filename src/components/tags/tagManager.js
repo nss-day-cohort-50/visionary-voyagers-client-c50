@@ -8,7 +8,7 @@ export const TagManager = () => {
     const [editMode, setEditMode] = useState(false)
     const [triggerRender, setTrigger] = useState(0)
     const [admin, setAdmin] = useState(Boolean)
-    console.log(triggerRender)
+
     const render = () =>{
         getTags()
             .then(res => res.json())
