@@ -8,6 +8,7 @@ import { TagManager } from './tags/tagManager'
 import { AllPosts } from "./posts/AllPosts.js"
 import { EditPost } from "./posts/EditPost.js"
 import { Comment } from "./comments/Comment.js"
+import { AdminUserManager } from "./admin/UserManager.js"
 
 export const ApplicationViews = () => {
     return <>
@@ -38,6 +39,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route exact path ="/post/:postId/comments">
                 <Comment />
+            </Route>
+            <Route exact path="/adminusermanager">
+                <AdminUserManager />
             </Route>
         </main>
     </>
