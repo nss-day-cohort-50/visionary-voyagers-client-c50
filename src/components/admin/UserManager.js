@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { AdminModal } from "./AdminModal";
 import { getAdminUserProfile, updateStatus } from "./AdminProvider";
-
+import { Link } from "react-router-dom";
 export const AdminUserManager = () => {
     const [users, setUsers] = useState([])
     const active = {"is_active": "Request"}
@@ -30,7 +30,7 @@ export const AdminUserManager = () => {
                     <tbody>
                         {users?.map((user)=>{
                             return( <tr>
-                                        <td>{user.user.first_name} {user.user.last_name}</td>
+                                        <td><Link to={`/userprofile/${user.id}`}>{user.user?.first_name} {user.user?.last_name}</Link></td>
                                         <td>{user.user.username}</td>
                                         <td><input type="checkbox" checked={user.active} onChange={()=>{
                                             if (user.active){
