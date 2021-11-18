@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { getMyPosts } from "./PostProvider"
+import { getMyPosts, getSubscribedPosts } from "./PostProvider"
 import { useHistory } from "react-router"
 import { EditDeleteModal } from "./EditDeleteModal"
 import { Link } from "react-router-dom"
@@ -9,11 +9,17 @@ export const Posts = ({ subscriptions }) => {
     const [postToModify, setPost] = useState({})
     const history = useHistory()
     const confirmDelete = useRef()
+    const pathname = window.location.pathname
 
     useEffect(() => {
-        getMyPosts()
-            .then(res => res.json())
-            .then(res => updatePosts(res))
+        if (pathname === "/myposts") {
+            getMyPosts()
+                .then(res => res.json())
+                .then(res => updatePosts(res))
+        } else {
+            getSubscribedPosts()
+                .then(posts => updatePosts(posts))
+        }
     }, [])
 
     return (

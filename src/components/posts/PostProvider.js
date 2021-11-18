@@ -84,3 +84,13 @@ export const getComments = (postId) => {
             }
         }).then((res) => res.json())
 }
+
+export const getSubscribedPosts = () => {
+    return fetch(`http://127.0.0.1:8000/posts?subscribed`,
+        {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user")}`
+
+            }
+        }).then((res) => res.json())
+}
