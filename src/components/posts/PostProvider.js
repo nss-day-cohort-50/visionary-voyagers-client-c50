@@ -64,15 +64,6 @@ export const getMyPosts = () => {
         })
 }
 
-export const getPostsByCat = (catId) => {
-    return fetch(`http://localhost:8000/posts?postsbycategory=${catId}`,
-        {
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("rare_user")}`
-            }
-        })
-}
-
 export const postComment = (postComment) => {
     return fetch(`http://localhost:8000/comments`, {
         method: "POST",
