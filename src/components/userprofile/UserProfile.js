@@ -31,7 +31,7 @@ export const UserProfile = () => {
                         <h3>{profile.user?.user.email}</h3>
                         <h3>{profile.user?.user.date_joined}</h3>
                         {<h3>{profile.user?.user.is_staff? "Admin": "Author"}</h3>}
-                        <Link><h3>Articles Posted #{profile.post?.length}</h3></Link>
+                        <Link to={`/usersposts/${profile.user?.id}`}><h3>Articles Posted #{profile.post?.length}</h3></Link>
                     </div>
                 </div>
                 <div className="subscribe-container">
