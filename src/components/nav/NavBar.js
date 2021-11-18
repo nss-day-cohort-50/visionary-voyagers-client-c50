@@ -26,9 +26,11 @@ export const NavBar = () => {
             <li className="navbar__item">
                 <Link className="navbar__link" to="/create_post">Create Post</Link>
             </li>
+            {localStorage.getItem("is_admin") === 'true'? 
             <li className="navbar__item">
                 <Link className="navbar__link" to="/adminusermanager">User Manager</Link>
             </li>
+            :""}
             {
                 (localStorage.getItem("rare_user") !== null) ?
                     <li className="nav-item">
