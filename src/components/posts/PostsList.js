@@ -26,6 +26,7 @@ export const Posts = ({ subscriptions }) => {
         <>
             <EditDeleteModal confirmDelete={confirmDelete} postToModify={postToModify} updatePosts={updatePosts} />
             <h2>{subscriptions ? "Subscribed Users Feed" : "My Posts"}</h2>
+            {posts.length === 0 ? "You have not subscribed to any users. 🙃" : ""}
             {posts?.map(post => {
                 return <>
                     <section className="postContainer">
