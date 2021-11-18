@@ -38,7 +38,7 @@ export const UsersPost = () => {
 
                         <div className="postFooter">
                             <div>
-                                Author: {post.user.user.first_name} {post.user.user.last_name}<br />
+                                Author: {profile.user?.user.first_name} {profile.user?.user.last_name}<br />
                                 Category: {post.category.label}
                             </div>
                             <div className="reaction-edit-delete">
