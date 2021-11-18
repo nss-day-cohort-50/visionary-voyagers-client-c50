@@ -2,22 +2,22 @@ import React, { useEffect, useState, useRef } from "react";
 import { AdminModal } from "./AdminModal";
 import { getAdminUserProfile, updateStatus } from "./AdminProvider";
 import { Link } from "react-router-dom";
+
 export const AdminUserManager = () => {
     const [users, setUsers] = useState([])
-    const active = {"is_active": "Request"}
-    const admin = {"is_admin": "Request"}
+    const active = { "is_active": "Request" }
+    const admin = { "is_admin": "Request" }
     const [userId, setUserId] = useState(0)
     const [activate, setActivate] = useState('')
     const [status, setStatus] = useState({})
     const confirmDelete = useRef()
-    const render = () =>{
-        getAdminUserProfile().then((res)=>res.json()).then((data)=>setUsers(data))
+    const render = () => {
+        getAdminUserProfile().then((res) => res.json()).then((data) => setUsers(data))
     }
     useEffect(() => {
         render()
-    },[])
+    }, [])
 
-//confirmDelete, userId, render, activate, status
     return(<>
                 <AdminModal confirmDelete={confirmDelete} userId={userId} render={render} activate={activate} status={status}/>
                 <table>
@@ -42,31 +42,31 @@ export const AdminUserManager = () => {
                                             setStatus(active)
                                             confirmDelete.current.showModal()
 
-                                            }}/></td>
-                                        {user.user.is_staff? 
-                                        <td>
-                                            <input type="checkbox" checked={false}onChange={()=>{
-                                            setActivate("remove Admin Privalges for")
-                                            setUserId(user.id)
-                                            setStatus(admin)
-                                            confirmDelete.current.showModal()
-                                            }}/>Author
-                                            <input type="checkbox" checked={true}/>Admin
-                                        </td>
-                                        :
-                                        <td>
-                                            <input type="checkbox" checked={true}/>Author
-                                            <input type="checkbox" checked={false}onChange={()=>{
-                                            setActivate("add Admin Privalges for")
-                                            setUserId(user.id)
-                                            setStatus(admin)
-                                            confirmDelete.current.showModal()
-                                            }}/>Admin
-                                        </td>
-                                        }
-                                    </tr>)
-                        })}
-                    </tbody>
-                </table>
+                        }} /></td>
+                        {user.user.is_staff ?
+                            <td>
+                                <input type="checkbox" checked={false} onChange={() => {
+                                    setActivate("remove Admin Privalges for")
+                                    setUserId(user.id)
+                                    setStatus(admin)
+                                    confirmDelete.current.showModal()
+                                }} />Author
+                                <input type="checkbox" checked={true} />Admin
+                            </td>
+                            :
+                            <td>
+                                <input type="checkbox" checked={true} />Author
+                                <input type="checkbox" checked={false} onChange={() => {
+                                    setActivate("add Admin Privalges for")
+                                    setUserId(user.id)
+                                    setStatus(admin)
+                                    confirmDelete.current.showModal()
+                                }} />Admin
+                            </td>
+                        }
+                    </tr>)
+                })}
+            </tbody>
+        </table>
     </>)
 }
