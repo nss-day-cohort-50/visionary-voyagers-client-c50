@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { getPost } from "./PostProvider"
 import { useHistory } from "react-router"
 import "./Post.css"
@@ -68,7 +68,7 @@ export const Post = () => {
                         </div>
                     }
                     <section className="interactions">
-                        <div>By: {post.user?.user.first_name} {post.user?.user.last_name}</div>
+                        <div>By: <Link to={`/userprofile/${post.user?.id}`}>{post.user?.user.first_name} {post.user?.user.last_name}</Link></div>
                         <div>
                             <button className="viewComments" onClick={() => history.push(`/post/${postId}/comments/`)}>View Comments</button>
                         </div>

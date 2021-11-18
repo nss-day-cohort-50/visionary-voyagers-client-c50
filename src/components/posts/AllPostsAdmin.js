@@ -63,7 +63,7 @@ export const AllPostsAdmin = ({ posts, updatePosts, editPost, confirmDelete }) =
                                 <Link to={`/post/${post.id}`}>{post.title}</Link>
                             </td>
                             <td>
-                                {post.user.user.first_name} {post.user.user.last_name}
+                                <Link to={`/userprofile/${post.user?.id}`}>{post.user.user.first_name} {post.user.user.last_name}</Link>
                             </td>
                             <td>
                                 {post.publication_date}
