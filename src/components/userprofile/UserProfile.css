@@ -1,0 +1,19 @@
+.postDetailImage {
+    width: 100%;
+    margin: auto;
+    height: 20em;
+    overflow: hidden;
+}
+.postDetailImage img {
+    width: 100%;
+    object-fit: contain;
+}
+.profile-container{
+    display: flex;
+}
+.profile-details-container{
+    display: flex;
+}
+.user-info-container{
+    margin-left: 1rem;
+}
