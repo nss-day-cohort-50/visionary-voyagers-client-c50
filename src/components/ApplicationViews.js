@@ -10,6 +10,7 @@ import { Comment } from "./comments/Comment.js"
 import { AdminUserManager } from "./admin/UserManager.js"
 import { UserProfile } from "./userprofile/UserProfile.js"
 import { UsersList } from "./userprofile/UsersList.js"
+import { UsersPost } from "./userprofile/UsersPost.js"
 
 export const ApplicationViews = () => {
     return <>
@@ -52,6 +53,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route exact path="/userslist">
                 <UsersList />
+            </Route>
+            <Route exact path="/usersposts/:userId(\d+)">
+                <UsersPost />
             </Route>
         </main>
     </>
