@@ -36,7 +36,7 @@ export const AllPosts = () => {
                                 </div>
                                 <div className="postFooter">
                                     <div>
-                                        Author: {post.user.user.first_name} {post.user.user.last_name}<br />
+                                        Author: <Link to={`/userprofile/${post.user?.id}`}>{post.user.user.first_name} {post.user.user.last_name}</Link><br />
                                         Category: {post.category.label}
                                     </div>
                                     <div className="reactionCount">

@@ -1,25 +1,32 @@
 import React, { useState, useEffect, useRef } from "react"
-import { getMyPosts } from "./PostProvider"
+import { getMyPosts, getSubscribedPosts } from "./PostProvider"
 import { useHistory } from "react-router"
 import { EditDeleteModal } from "./EditDeleteModal"
 import { Link } from "react-router-dom"
 
-export const Posts = () => {
+export const Posts = ({ subscriptions }) => {
     const [posts, updatePosts] = useState([])
     const [postToModify, setPost] = useState({})
     const history = useHistory()
     const confirmDelete = useRef()
+    const pathname = window.location.pathname
 
     useEffect(() => {
-        getMyPosts()
-            .then(res => res.json())
-            .then(res => updatePosts(res))
+        if (pathname === "/myposts") {
+            getMyPosts()
+                .then(res => res.json())
+                .then(res => updatePosts(res))
+        } else {
+            getSubscribedPosts()
+                .then(posts => updatePosts(posts))
+        }
     }, [])
 
     return (
         <>
             <EditDeleteModal confirmDelete={confirmDelete} postToModify={postToModify} updatePosts={updatePosts} />
-            <h2>My Posts</h2>
+            <h2>{subscriptions ? "Subscribed Users Feed" : "My Posts"}</h2>
+            {posts.length === 0 ? "You have not subscribed to any users. 🙃" : ""}
             {posts?.map(post => {
                 return <>
                     <section className="postContainer">
@@ -49,19 +56,25 @@ export const Posts = () => {
                                 <div className="reactionCount">
                                     #reaction count
                                 </div>
-                                <button className="deleteButton"
-                                    onClick={() =>
-                                        history.push(`edit_post/${post.id}`)
-                                    }>
-                                    ⚙️
-                                </button>
-                                <button className="deleteButton"
-                                    onClick={() => {
-                                        setPost(post);
-                                        confirmDelete.current.showModal()
-                                    }}>
-                                    🗑️
-                                </button>
+                                {subscriptions ?
+                                    ""
+                                    :
+                                    <>
+                                        <button className="deleteButton"
+                                            onClick={() =>
+                                                history.push(`edit_post/${post.id}`)
+                                            }>
+                                            ⚙️
+                                        </button>
+                                        <button className="deleteButton"
+                                            onClick={() => {
+                                                setPost(post);
+                                                confirmDelete.current.showModal()
+                                            }}>
+                                            🗑️
+                                        </button>
+                                    </>
+                                }
                             </div>
                         </div>
 
