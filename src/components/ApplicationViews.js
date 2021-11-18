@@ -24,7 +24,10 @@ export const ApplicationViews = () => {
             <Route path="/myposts">
                 <Posts/>
             </Route>
-            <Route path="/posts">
+            <Route exact path="/posts">
+                <AllPosts />
+            </Route>
+            <Route exact path="/posts/category/:catId">
                 <AllPosts />
             </Route>
             <Route path="/create_post">

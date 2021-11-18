@@ -2,16 +2,27 @@ import React, { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import { AllPostsAdmin } from "./AllPostsAdmin"
 import { getPosts } from "./PostProvider"
+import { getPostsByCat } from '../categories/CategoryProvider'
+import { useParams } from "react-router"
 import "./Posts.css"
 
 export const AllPosts = () => {
     const [posts, updatePosts] = useState([])
     const confirmDelete = useRef()
     const editPost = useRef()
+    const {catId} = useParams()
+    const pathname = window.location.pathname
+    // const pathname = href.split("/")
 
     useEffect(() => {
-        getPosts()
-            .then(res => updatePosts(res))
+        if (pathname === `/posts/category/${catId}`) {
+            getPostsByCat(catId)
+                .then(res => res.json())
+                .then(res => updatePosts(res))
+        } else {
+            getPosts()
+                .then(res => updatePosts(res))
+        }
     }, [])
 
     return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { getMyPosts, getSubscribedPosts } from "./PostProvider"
-import { useHistory } from "react-router"
+import { useHistory, useParams } from "react-router"
 import { EditDeleteModal } from "./EditDeleteModal"
 import { Link } from "react-router-dom"
 
@@ -21,7 +21,7 @@ export const Posts = ({ subscriptions }) => {
                 .then(posts => updatePosts(posts))
         }
     }, [])
-
+    
     return (
         <>
             <EditDeleteModal confirmDelete={confirmDelete} postToModify={postToModify} updatePosts={updatePosts} />
