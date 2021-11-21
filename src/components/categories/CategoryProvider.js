@@ -6,6 +6,14 @@ export const getCats = () => {
     })
 }
 
+export const getCat = (catId) => {
+    return fetch(`http://127.0.0.1:8000/categories/${catId}`,{
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("rare_user")}`
+        }
+    })
+}
+
 export const updateCategory = (newCat) => {
     return fetch(`http://127.0.0.1:8000/categories/${newCat.id}`, {
         method: "PUT",

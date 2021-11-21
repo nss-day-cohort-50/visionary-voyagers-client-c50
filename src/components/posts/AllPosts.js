@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import { AllPostsAdmin } from "./AllPostsAdmin"
 import { getPosts } from "./PostProvider"
-import { getPostsByCat } from '../categories/CategoryProvider'
+import { getPostsByCat, getCat } from '../categories/CategoryProvider'
 import { useParams } from "react-router"
 import "./Posts.css"
 
@@ -11,8 +11,10 @@ export const AllPosts = () => {
     const confirmDelete = useRef()
     const editPost = useRef()
     const {catId} = useParams()
+    const [cat, setCat] = useState({})
     const pathname = window.location.pathname
     // const pathname = href.split("/")
+
 
     useEffect(() => {
         if (pathname === `/posts/category/${catId}`) {
@@ -25,9 +27,17 @@ export const AllPosts = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (pathname === `/posts/category/${catId}`) {
+            getCat(catId)
+                .then(res => res.json())
+                .then(res => setCat(res))
+        }
+    }, [])
+
     return (
         <>
-            <h2>All Posts</h2>
+            <h2>{catId ? `${cat?.label} Search` : "All Posts"}</h2>
             {localStorage.getItem("is_admin") === "true" ?
                 <AllPostsAdmin posts={posts} updatePosts={updatePosts} editPost={editPost} confirmDelete={confirmDelete} />
                 :
