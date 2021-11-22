@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link }from 'react-router-dom'
 import "./CategoryManager.css"
-import { deleteCategory, getCats, postCategory, updateCategory } from "./CategoryProvider";
+import { deleteCategory, getCats, postCategory, updateCategory} from "./CategoryProvider";
 
 export const CategoryManager = () => {
     const [categories, setCategories] = useState([])
@@ -52,7 +53,7 @@ export const CategoryManager = () => {
                     {categories?.map(cat => {
                         return <li key={cat.id}>
                             <div className="cat-list-item">
-                                {cat.label}
+                                <Link to={`/posts/category/${cat.id}`}>{cat.label}</Link>
                                 {admin ?<div>
                                     <button className="edit-delete"
                                         onClick={() => { editCategory(cat) }}>🔧</button>
